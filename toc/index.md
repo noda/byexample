@@ -12,6 +12,6 @@ Our system does the heavy lifting, providing you with cleaver control signal fro
 
 ## API solutions
 
-- [EnergyView API by Example](energyview)
-- [Self-host API by Example](selfhost)
+- [EnergyView API by Example](energyview.html)
+- [Self-host API by Example](selfhost.html)
 
