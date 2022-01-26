@@ -60,6 +60,37 @@ section.intro {
 	margin-right: auto;
 }
 
+section.example {
+	max-width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+section.example div.details {
+	background: linear-gradient(90deg, #FFFFFF 50%, #ffffdd 50%);
+	margin-top: 2rem;
+	border-radius: 0.3rem;
+	overflow: hidden;
+	width: 100%;
+}
+
+section.example h1, section.example h2, section.example h3 {
+	width: 100%;
+}
+
+section.example div.details > * {
+	width: 50%;
+	float: left;
+	clear: left;
+}
+
+section.example div.details hr {
+	width: 100%;
+	display: block;
+	border: 0;
+	clear: both;
+}
+
 h1 {
 	font-size: 34px;
 	line-height: 42px;
@@ -83,6 +114,7 @@ p {
 footer {
 	margin-top: 5rem;
 	color: grey;
+	clear: both!important;
 }
 
 ul, ol {

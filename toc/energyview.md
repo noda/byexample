@@ -4,6 +4,6 @@ EnergyView is the primary interface to NODAs services. Built to provide a versat
 
 *EnergyView API by Example* is a hands-on introduction to the EnergyView API using annotated example programs written in a variety of languages.
 
-Check out the first [example](/energyview/hello-world) or browse the full list below.
+Check out the first [example](/energyview/hello-world.html) or browse the full list below.
 
-- [Hello World](energyview/hello-world)
+- [Hello World](energyview/hello-world.html)
