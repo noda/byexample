@@ -8,22 +8,22 @@ all: index energyview selfhost
 
 index: docs/index.html
 
-energyview: docs/energyview
+energyview: docs/energyview.html
 
-selfhost: docs/selfhost
+selfhost: docs/selfhost.html
 
 docs/index.html: toc/index.md
 	pandoc -o $@ $^ \
 		--template=templates/index \
 		--metadata title="NODA by Example"
 
-docs/energyview: toc/energyview.md
+docs/energyview.html: toc/energyview.md
 	pandoc -o $@ $^ \
 		-t html \
 		--template=templates/overview \
 		--metadata title="EnergyView API by Example"
 
-docs/selfhost: toc/selfhost.md
+docs/selfhost.html: toc/selfhost.md
 	pandoc -o $@ $^ \
 		-t html \
 		--template=templates/overview \
@@ -32,4 +32,4 @@ docs/selfhost: toc/selfhost.md
 clean:
 	rm toc/*.html
 
-.PHONY: docs/index.html docs/energyview docs/selfhost
+.PHONY: docs/index.html docs/energyview.html docs/selfhost.html
