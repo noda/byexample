@@ -1,5 +1,6 @@
 # use Marko to parse several code blocks
 
+import pathlib
 import random
 import string
 import sys
@@ -22,12 +23,13 @@ HTML5_TEMPLATE = Template(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$title</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/nord-darker.css">
-    <link rel="stylesheet" href="css/main.css">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -36,8 +38,14 @@ HTML5_TEMPLATE = Template(
             $body
             </div>
         </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/$source">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
+        </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 """
@@ -129,7 +137,7 @@ class TabbedCodeRendererMixin(object):
             ]
         )
 
-        return f"""<div class="card mb-3">
+        return f"""<div class="card">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" id="{element.html_id}" role="tablist">
                     {tabs}
@@ -148,32 +156,30 @@ class TabbedCode:
     renderer_mixins = [TabbedCodeRendererMixin]
 
 
-def group_fenced_code_blocks(elements):
-    """Group fenced code blocks into one element."""
-    result = []
-    for element in elements:
-        if isinstance(element, FencedCode):
-            if result and isinstance(result[-1], FencedCodeGroup):
-                result[-1].children.append(element)
-            else:
-                result.append(FencedCodeGroup([element]))
-        else:
-            result.append(element)
-    return result
-
-
-def get_page_title(elements):
-    """Get page title from the first h1 element."""
-    for element in elements:
-        if isinstance(element, Heading) and element.level == 1:
-            return element.children[0].children
-    return "Untitled"
-
-
 def main(argv):
     if len(argv) < 1:
         print("Usage: byexample-page <input.md> [output.html]")
         return
+
+    def group_fenced_code_blocks(elements):
+        """Group fenced code blocks into one element."""
+        result = []
+        for element in elements:
+            if isinstance(element, FencedCode):
+                if result and isinstance(result[-1], FencedCodeGroup):
+                    result[-1].children.append(element)
+                else:
+                    result.append(FencedCodeGroup([element]))
+            else:
+                result.append(element)
+        return result
+
+    def get_page_title(elements):
+        """Get page title from the first h1 element."""
+        for element in elements:
+            if isinstance(element, Heading) and element.level == 1:
+                return element.children[0].children
+        return "Untitled"
 
     input_file = argv[0]
     output_file = argv[1] if len(argv) > 1 else None
@@ -189,7 +195,11 @@ def main(argv):
     body = markdown.renderer.render(doc)
     title = get_page_title(doc.children)
 
-    html5 = HTML5_TEMPLATE.substitute(title=title, body=body)
+    p = pathlib.Path(input_file)
+
+    html5 = HTML5_TEMPLATE.substitute(
+        title=title, body=body, source=pathlib.Path(*p.parts[1:])
+    )
 
     if output_file is None:
         print(html5)

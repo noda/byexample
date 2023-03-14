@@ -1,43 +1,31 @@
-# TOC_DIR := toc
-# TOC_SOURCES := $(shell find toc -name '*.md')
-# TOC_OBJS := $(sort $(TOC_SOURCES:%.md=%.html))
-
 MD := mkdir
 
 EXAMPLE_SOURCES := $(shell find examples -name '*.md')
 EXAMPLE_OBJS := $(subst examples/,docs/,$(EXAMPLE_SOURCES:.md=.html))
 EXAMPLE_DIRS = $(subst /,/,$(sort $(dir $(EXAMPLE_OBJS))))
+EXAMPLE_TARGETS := $(patsubst examples/%.md,docs/%.html,$(EXAMPLE_SOURCES))
 
-all: docs index energyview selfhost examples
+all: docs index examples
 
 docs:
 	$(MD) -p $(EXAMPLE_DIRS)
 
-index: docs/index.html
+examples: $(EXAMPLE_TARGETS)
 
-energyview: docs/energyview.html
+# "loop" all examples and run byexample-page.py on each
+docs/%.html: examples/%.md
+	python byexample-page.py $^ $@
 
-selfhost: docs/selfhost.html
+docs/index.html: $(EXAMPLE_SOURCES)
+	python byexample-index.py examples > $@
 
-examples: $(EXAMPLE_SOURCES)
-	pandoc -o $(subst examples/,docs/,$(^:.md=.html)) $^ \
-		--metadata-file=$(shell dirname $^)/metadata.yaml \
-		--template=templates/example
+# examples: $(EXAMPLE_SOURCES)
+# 	python byexample-page.py $^ $(subst examples/,docs/,$(^:.md=.html))
 
-docs/index.html: toc/index.md
-	pandoc -o $@ $^ \
-		--template=templates/index \
-		--metadata title="NODA by Example"
-
-docs/energyview.html: toc/energyview.md
-	pandoc -o $@ $^ \
-		--template=templates/overview \
-		--metadata title="EnergyView API by Example"
-
-docs/selfhost.html: toc/selfhost.md
-	pandoc -o $@ $^ \
-		--template=templates/overview \
-		--metadata title="EnergyView API by Example"
+# docs/index.html: toc/index.md
+# 	pandoc -o $@ $^ \
+# 		--template=templates/index \
+# 		--metadata title="NODA by Example"
 
 clean:
 	rm toc/*.html

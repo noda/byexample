@@ -1,7 +1,22 @@
----
-title: "Hello World"
-...
+# EnergyView API: Hello World
 
+[Back to index](/index.html)
+
+*Test*
+
+Code example in 2 languages
+
+```c
+#include <stdio.h>
+
+int main() {
+    char name[20];
+    printf("What is your name?\n");
+    scanf("%s", name);
+    printf("Hello, %s!\n", name);
+    return 0;
+}
+```
 ```go
 
 x := 10
@@ -10,24 +25,9 @@ x := 10
 
 d := x
 ```
-
-A very basic example of how.
-
-- Item 1
-- Item 2
-- Item 3
-
-
----
-
-Yet it is not always as you'd like.
-
 ```python
-# Test
-# Test2
-x = [10, 20, 30]
-y = x
 
-# Stuff
-asd = x, y
+x = 10
+
+# Hello world
 ```

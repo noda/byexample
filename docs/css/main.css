@@ -1,0 +1,56 @@
+body {
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 1.1rem;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+    margin-top: 2rem;
+}
+
+.card-body {
+    padding: 0rem;
+}
+
+.container {
+    max-width: 900px;
+}
+
+.highlight {
+    margin: 0.5rem;
+    border-radius: var(--bs-card-border-radius);
+    overflow-x: auto;
+}
+
+.card {
+    margin-bottom: 3rem;
+}
+
+td.linenos {
+    color: #999;
+    padding: 0.5rem;
+    background-color: #2d3440;
+    border-right: 1px solid #2f3640;
+    border-radius: var(--bs-card-border-radius) 0 0 var(--bs-card-border-radius);
+}
+
+td.linenos span {
+    background-color: transparent!important;
+}
+
+td.code {
+    padding-left: 0.5rem;
+}
+
+footer.footer {
+    margin-top: 2rem;
+    margin-bottom: 8rem;
+}
+
+blockquote {
+    border-left: 0.25rem solid #2d3440;
+    padding-left: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1rem;
+}

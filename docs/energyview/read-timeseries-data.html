@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyView API: Read TimeSeries data</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView API: Read TimeSeries data</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>The ability to read or extract TimeSeries data via requests is the second most important function of the EnergyView API. It is only preceded by the function to store data in the database.</p>
+<p>We designed the TimeSeries API to be as easy to use as possible while allowing for more complex use cases.</p>
+<blockquote>
+<p><strong>NOTE</strong>: It is essential to escape certain characters that are part of the URL. The <code>+</code>, for example, is used to indicate a space in a URL. Suppose you do not escape the <code>+</code> in, for instance, an RFC3339 timestamp. Then, the format will be treated as invalid once parsed by the server.<br />
+Whether you are required to escape the character manually or if the HTTP library you are using does this depends on the library's functionality.</p>
+</blockquote>
+<!--
+This example shows how to read the TimeSeries data from the EnergyView APIv1.
+
+
+node_id
+(query)
+    
+
+Filter on the unique identifier (integer or UUID) for a specific node.
+
+Example : 1e8d8d9f-0e4b-4e4d-8f7b-8b1f3b1c1d1e
+node_ids
+string
+(query)
+    
+
+Filter on several unique node identifiers. Can not be used together with node_id. The paramater needs to be JSON encoded.
+
+Example : [1,2,3]
+tag
+string
+(query)
+    
+
+Filter on a sensor name.
+
+Example : outdoortemp
+tags
+string
+(query)
+    
+
+Filter on several sensor names. Can not be used together with tag. The paramater needs to be JSON encoded.
+start
+string($rfc3339)
+(query)
+    
+
+The {from} (>=) date-time string on the format YYYY-MM-DDThh:mm:ss±hh:mm. Without timezone information, the API will fall back to the time zone configured for the domain.
+
+Default value : now
+
+Example : 2020-01-01T00:00:00Z
+end
+string($rfc3339)
+(query)
+    
+
+The {to} (<=) date-time string on the format YYYY-MM-DDThh:mm:ss±hh:mm. Without timezone information, the API will fall back to the time zone configured for the domain.
+
+Default value : now
+
+Example : 2020-01-01T01:00:00Z
+resolution
+string
+(query)
+    
+
+Truncates all timestamps to any of (options), then computes the average for all points within the truncated period.
+
+Available values : second, minute, 5minute, 10minute, 15minute, 20minute, 30minute, hour, day, month, year, decade, century, millennia
+
+Example : minute
+aggregate
+string
+(query)
+    
+
+When using resolution. Select this aggregate function instead of the default avg when computing the result.
+
+Available values : avg, min, max, sum, count
+
+Example : avg
+epoch
+integer
+(query)
+    
+
+When enabled (set to 1), the ts field will be in Unix timestamp format (numeric) instead of a string. This is the number of seconds that have elapsed since the Unix epoch, the time 00:00:00 UTC on 1 January 1970.
+
+Available values : 0, 1
+
+Example : 1
+-->
+<h2>Basic example with a single tag</h2>
+<p>In the following example we extract data from a single tag on a single node.</p>
+<p>To allow for more complex use-cases, the id of a Node can be either an <code>integer</code> or a <code>UUID</code>.</p>
+<p>We need to specify the following;</p>
+<ul>
+<li><em>node_id</em>, the unique identifier for the node we want to extract data from.</li>
+<li><em>tag</em>, the name of the tag we want to extract data fromm which belongs to the node.</li>
+<li><em>start</em>, the start date and time for the data we want to extract. The format is <a href="/various/rfc3339.html">RFC3339</a>.</li>
+<li><em>end</em>, the end date and time for the data we want to extract. The format is <a href="/various/rfc3339.html">RFC3339</a>.</li>
+</ul>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="onnGDU" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="YYXiLg-tab" data-bs-toggle="tab" data-bs-target="#YYXiLg" type="button" role="tab" aria-controls="YYXiLg" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="tFmDOf-tab" data-bs-toggle="tab" data-bs-target="#tFmDOf" type="button" role="tab" aria-controls="tFmDOf" aria-selected="true">Go</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="onnGDU-content">
+                    <div class="tab-pane active" id="YYXiLg" role="tabpanel" aria-labelledby="YYXiLg-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-02T00:00:00+01:00&quot;</span>
+<span class="p">}</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="tFmDOf" role="tabpanel" aria-labelledby="tFmDOf-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="w">    </span><span class="s">&quot;io/ioutil&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/json&quot;</span>
+<span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>The format of the returned data is a JSON array of objects with the following fields:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="GmMSKX" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="BdqCFA-tab" data-bs-toggle="tab" data-bs-target="#BdqCFA" type="button" role="tab" aria-controls="BdqCFA" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="GmMSKX-content">
+                    <div class="tab-pane active" id="BdqCFA" role="tabpanel" aria-labelledby="BdqCFA-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timeseries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.14</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T00:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.15</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T01:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.16</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T02:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.17</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T03:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="err">...</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>As you can see, the data is returned as a JSON array of objects. Each object contains the <code>node_id</code>, the <code>tag</code> and the <code>data</code> for that specific tag. The purpose of the array is to allow for multiple tags to be returned in a single request.</p>
+<h2>Basic example with multiple tags</h2>
+<p>In the following example we extract data from multiple tags on multiple nodes.</p>
+<p>To allow for more complex use-cases, the id of a Node can be either an <code>integer</code> or a <code>UUID</code>.</p>
+<p>We need to specify the following;</p>
+<ul>
+<li><em>node_ids</em>, the unique identifier for the nodes we want to extract data from.</li>
+<li><em>tags</em>, the names of the tags we want to extract data fromm which belongs to the node.</li>
+<li><em>start</em>, the start date and time for the data we want to extract. The format is <a href="/various/rfc3339.html">RFC3339</a>.</li>
+<li><em>end</em>, the end date and time for the data we want to extract. The format is <a href="/various/rfc3339.html">RFC3339</a>.</li>
+</ul>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="fxRUoR" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="pJSNIY-tab" data-bs-toggle="tab" data-bs-target="#pJSNIY" type="button" role="tab" aria-controls="pJSNIY" aria-selected="true">Python</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="fxRUoR-content">
+                    <div class="tab-pane active" id="pJSNIY" role="tabpanel" aria-labelledby="pJSNIY-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;node_ids&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span>
+            <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;64c1faf9-b23c-4f6d-9429-b2b3f5e4811d&quot;</span>
+        <span class="p">]),</span>
+    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span>
+            <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;supplytemp_sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;returntemp_sec&quot;</span>
+        <span class="p">]),</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-02T00:00:00+01:00&quot;</span>
+<span class="p">}</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>The format of the returned data is the same as for the first Basic example with a single tag. The only difference is that there will be several objects inside the timeseries array:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="veTtpW" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="SKZvSB-tab" data-bs-toggle="tab" data-bs-target="#SKZvSB" type="button" role="tab" aria-controls="SKZvSB" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="veTtpW-content">
+                    <div class="tab-pane active" id="SKZvSB" role="tabpanel" aria-labelledby="SKZvSB-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timeseries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.14</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T00:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.15</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T01:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.16</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T02:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.17</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T03:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="err">...</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;supplytemp_sec&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">87</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T00:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">88</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T01:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">86</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T02:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T03:00:00+01:00&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="err">...</span><span class="w">   </span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><h2>Advanced example</h2>
+<p>In the following example we extract data from a single node and a single tag while also specifying the aggregation method.</p>
+<p>For aggregation of data to work we need to truncate the timestamps to the desired resolution, we also need to supply the aggregation method.</p>
+<ul>
+<li>
+<code>resolution</code>, the resolution of the timestamps. Available options are;<ul>
+<li>second</li>
+<li>minute</li>
+<li>5minute</li>
+<li>10minute</li>
+<li>15minute</li>
+<li>20minute</li>
+<li>30minute</li>
+<li>hour</li>
+<li>day</li>
+<li>month</li>
+<li>year</li>
+<li>decade</li>
+<li>century</li>
+<li>millennia</li>
+</ul>
+</li>
+<li>
+<code>aggregate</code>, the aggregation method. Available options are;<ul>
+<li>avg</li>
+<li>min</li>
+<li>max</li>
+<li>sum</li>
+<li>count</li>
+</ul>
+</li>
+</ul>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="JMaiIZ" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="nftuJY-tab" data-bs-toggle="tab" data-bs-target="#nftuJY" type="button" role="tab" aria-controls="nftuJY" aria-selected="true">Python</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="JMaiIZ-content">
+                    <div class="tab-pane active" id="nftuJY" role="tabpanel" aria-labelledby="nftuJY-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-02-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;aggregate&quot;</span><span class="p">:</span> <span class="s2">&quot;avg&quot;</span>
+<span class="p">}</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Using aggregation will return computed values for the specified resolution.</p>
+<p>To get the minimum value for each day we would use the following request:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="IBmTEV" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="rrWdOW-tab" data-bs-toggle="tab" data-bs-target="#rrWdOW" type="button" role="tab" aria-controls="rrWdOW" aria-selected="true">Python</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="IBmTEV-content">
+                    <div class="tab-pane active" id="rrWdOW" role="tabpanel" aria-labelledby="rrWdOW-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-02-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;aggregate&quot;</span><span class="p">:</span> <span class="s2">&quot;min&quot;</span>
+<span class="p">}</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><h2>Epoch format</h2>
+<p>The API also supports the UNIX epoch format for timestamps.</p>
+<p>To use the UNIX epoch format we need to specify the <code>epoch</code> parameter.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="RUGDGu" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="EqczeO-tab" data-bs-toggle="tab" data-bs-target="#EqczeO" type="button" role="tab" aria-controls="EqczeO" aria-selected="true">Python</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="RUGDGu-content">
+                    <div class="tab-pane active" id="EqczeO" role="tabpanel" aria-labelledby="EqczeO-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-02-01T00:00:00+01:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Instead of timestamps in RFC3339 format, all timestamp will now use the number of seconds since the UNIX epoch (January 1st 1970).</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="wZRCOR" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="SKMDmr-tab" data-bs-toggle="tab" data-bs-target="#SKMDmr" type="button" role="tab" aria-controls="SKMDmr" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="wZRCOR-content">
+                    <div class="tab-pane active" id="SKMDmr" role="tabpanel" aria-labelledby="SKMDmr-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timeseries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.14</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1640995200</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.15</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1641081600</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.16</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1641168000</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.17</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1641254400</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="err">...</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/energyview/read-timeseries-data.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

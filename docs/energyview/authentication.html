@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyView API: Authentication</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView API: Authentication</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>This example shows how to authenticate to the EnergyView APIv1.</p>
+<p>The API uses keys to authenticate requests. An API key is a unique string of characters that is used to identify the calling system and provide it with access to the resources.</p>
+<p>To view and manage API keys, you need to have administrative access to the account page.</p>
+<blockquote>
+<p>API keys carry important privileges and should be kept secure at all times. It is important not to share your secret API keys in publicly accessible areas such as social media, client-side code, and so forth.</p>
+</blockquote>
+<p>Authentication to the API is performed using HTTP Key Auth. This means that you need to provide your API key as the auth key value in the request header. You do not need to provide a password. For example, the Authorization header should be set as follows:</p>
+<blockquote>
+<p><em>Authorization: Key secret-token.c4bbcb1fbec99d65…9afa73bd4e39a8a</em></p>
+</blockquote>
+<p>It is important to note that all API requests must be made over HTTPS. API requests that are not authenticated using the API key will fail.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="ypXmuf" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="sAfEci-tab" data-bs-toggle="tab" data-bs-target="#sAfEci" type="button" role="tab" aria-controls="sAfEci" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="dKxYBb-tab" data-bs-toggle="tab" data-bs-target="#dKxYBb" type="button" role="tab" aria-controls="dKxYBb" aria-selected="true">Go</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="NeMXKR-tab" data-bs-toggle="tab" data-bs-target="#NeMXKR" type="button" role="tab" aria-controls="NeMXKR" aria-selected="true">JavaScript</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="ypXmuf-content">
+                    <div class="tab-pane active" id="sAfEci" role="tabpanel" aria-labelledby="sAfEci-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;mydomain&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;mysecretkey&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/nodes&quot;</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">reply</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Request succeeded&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="dKxYBb" role="tabpanel" aria-labelledby="dKxYBb-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">domain</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;mydomain&quot;</span>
+<span class="w">    </span><span class="nx">secret</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;mysecretkey&quot;</span>
+<span class="w">    </span><span class="nx">url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;https://customer.noda.se/%s/api/v1/nodes&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">domain</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">req</span><span class="p">.</span><span class="nx">Header</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s">&quot;Authorization&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;Key %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">secret</span><span class="p">))</span>
+
+<span class="w">    </span><span class="nx">client</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span><span class="p">{}</span>
+<span class="w">    </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Do</span><span class="p">(</span><span class="nx">req</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Response status:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Status</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="NeMXKR" role="tabpanel" aria-labelledby="NeMXKR-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">https</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;https&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mydomain&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mysecretkey&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`https://customer.noda.se/</span><span class="si">${</span><span class="nx">domain</span><span class="si">}</span><span class="sb">/api/v1/nodes`</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">Authorization</span><span class="o">:</span><span class="w"> </span><span class="sb">`Key </span><span class="si">${</span><span class="nx">secret</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="nx">https</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Request succeeded&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Request failed&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/energyview/authentication.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
