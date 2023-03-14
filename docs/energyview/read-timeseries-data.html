@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnergyView API: Read TimeSeries data</title>
     
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -26,90 +27,6 @@
 <p><strong>NOTE</strong>: It is essential to escape certain characters that are part of the URL. The <code>+</code>, for example, is used to indicate a space in a URL. Suppose you do not escape the <code>+</code> in, for instance, an RFC3339 timestamp. Then, the format will be treated as invalid once parsed by the server.<br />
 Whether you are required to escape the character manually or if the HTTP library you are using does this depends on the library's functionality.</p>
 </blockquote>
-<!--
-This example shows how to read the TimeSeries data from the EnergyView APIv1.
-
-
-node_id
-(query)
-    
-
-Filter on the unique identifier (integer or UUID) for a specific node.
-
-Example : 1e8d8d9f-0e4b-4e4d-8f7b-8b1f3b1c1d1e
-node_ids
-string
-(query)
-    
-
-Filter on several unique node identifiers. Can not be used together with node_id. The paramater needs to be JSON encoded.
-
-Example : [1,2,3]
-tag
-string
-(query)
-    
-
-Filter on a sensor name.
-
-Example : outdoortemp
-tags
-string
-(query)
-    
-
-Filter on several sensor names. Can not be used together with tag. The paramater needs to be JSON encoded.
-start
-string($rfc3339)
-(query)
-    
-
-The {from} (>=) date-time string on the format YYYY-MM-DDThh:mm:ss±hh:mm. Without timezone information, the API will fall back to the time zone configured for the domain.
-
-Default value : now
-
-Example : 2020-01-01T00:00:00Z
-end
-string($rfc3339)
-(query)
-    
-
-The {to} (<=) date-time string on the format YYYY-MM-DDThh:mm:ss±hh:mm. Without timezone information, the API will fall back to the time zone configured for the domain.
-
-Default value : now
-
-Example : 2020-01-01T01:00:00Z
-resolution
-string
-(query)
-    
-
-Truncates all timestamps to any of (options), then computes the average for all points within the truncated period.
-
-Available values : second, minute, 5minute, 10minute, 15minute, 20minute, 30minute, hour, day, month, year, decade, century, millennia
-
-Example : minute
-aggregate
-string
-(query)
-    
-
-When using resolution. Select this aggregate function instead of the default avg when computing the result.
-
-Available values : avg, min, max, sum, count
-
-Example : avg
-epoch
-integer
-(query)
-    
-
-When enabled (set to 1), the ts field will be in Unix timestamp format (numeric) instead of a string. This is the number of seconds that have elapsed since the Unix epoch, the time 00:00:00 UTC on 1 January 1970.
-
-Available values : 0, 1
-
-Example : 1
--->
 <h2>Basic example with a single tag</h2>
 <p>In the following example we extract data from a single tag on a single node.</p>
 <p>To allow for more complex use-cases, the id of a Node can be either an <code>integer</code> or a <code>UUID</code>.</p>
@@ -122,13 +39,13 @@ Example : 1
 </ul>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="onnGDU" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="YYXiLg-tab" data-bs-toggle="tab" data-bs-target="#YYXiLg" type="button" role="tab" aria-controls="YYXiLg" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="tFmDOf-tab" data-bs-toggle="tab" data-bs-target="#tFmDOf" type="button" role="tab" aria-controls="tFmDOf" aria-selected="true">Go</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="bFMvEX" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="lqjiqH-tab" data-bs-toggle="tab" data-bs-target="#lqjiqH" type="button" role="tab" aria-controls="lqjiqH" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="RFGquu-tab" data-bs-toggle="tab" data-bs-target="#RFGquu" type="button" role="tab" aria-controls="RFGquu" aria-selected="true">Go</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="UxekHM-tab" data-bs-toggle="tab" data-bs-target="#UxekHM" type="button" role="tab" aria-controls="UxekHM" aria-selected="true">Bash</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="onnGDU-content">
-                    <div class="tab-pane active" id="YYXiLg" role="tabpanel" aria-labelledby="YYXiLg-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="bFMvEX-content">
+                    <div class="tab-pane active" id="lqjiqH" role="tabpanel" aria-labelledby="lqjiqH-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -162,7 +79,7 @@ Example : 1
 
 <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div></td></tr></table></div>
-</div><div class="tab-pane " id="tFmDOf" role="tabpanel" aria-labelledby="tFmDOf-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+</div><div class="tab-pane " id="RFGquu" role="tabpanel" aria-labelledby="RFGquu-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
@@ -178,19 +95,29 @@ Example : 1
 <span class="w">    </span><span class="s">&quot;encoding/json&quot;</span>
 <span class="p">)</span>
 </pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="UxekHM" role="tabpanel" aria-labelledby="UxekHM-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Key demo-secret&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Accept: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;node_id&quot;:&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;,&quot;tag&quot;:&quot;outdoortemp&quot;,&quot;start&quot;:&quot;2023-01-01T00:00:00+01:00&quot;,&quot;end&quot;:&quot;2023-01-02T00:00:00+01:00&quot;}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>https://customer.noda.se/demo/api/v1/timeseries
+</pre></div></td></tr></table></div>
 </div>
                 </div>
             </div>
         </div><p>The format of the returned data is a JSON array of objects with the following fields:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="GmMSKX" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="BdqCFA-tab" data-bs-toggle="tab" data-bs-target="#BdqCFA" type="button" role="tab" aria-controls="BdqCFA" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="CKmIUo" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="LXeuGF-tab" data-bs-toggle="tab" data-bs-target="#LXeuGF" type="button" role="tab" aria-controls="LXeuGF" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="GmMSKX-content">
-                    <div class="tab-pane active" id="BdqCFA" role="tabpanel" aria-labelledby="BdqCFA-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="CKmIUo-content">
+                    <div class="tab-pane active" id="LXeuGF" role="tabpanel" aria-labelledby="LXeuGF-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -260,13 +187,13 @@ Example : 1
 </ul>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="fxRUoR" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="pJSNIY-tab" data-bs-toggle="tab" data-bs-target="#pJSNIY" type="button" role="tab" aria-controls="pJSNIY" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="aSyJEv" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="EOgvbH-tab" data-bs-toggle="tab" data-bs-target="#EOgvbH" type="button" role="tab" aria-controls="EOgvbH" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="fxRUoR-content">
-                    <div class="tab-pane active" id="pJSNIY" role="tabpanel" aria-labelledby="pJSNIY-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="aSyJEv-content">
+                    <div class="tab-pane active" id="EOgvbH" role="tabpanel" aria-labelledby="EOgvbH-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -322,13 +249,13 @@ Example : 1
         </div><p>The format of the returned data is the same as for the first Basic example with a single tag. The only difference is that there will be several objects inside the timeseries array:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="veTtpW" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="SKZvSB-tab" data-bs-toggle="tab" data-bs-target="#SKZvSB" type="button" role="tab" aria-controls="SKZvSB" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="iQqzWr" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="Wykllo-tab" data-bs-toggle="tab" data-bs-target="#Wykllo" type="button" role="tab" aria-controls="Wykllo" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="veTtpW-content">
-                    <div class="tab-pane active" id="SKZvSB" role="tabpanel" aria-labelledby="SKZvSB-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="iQqzWr-content">
+                    <div class="tab-pane active" id="Wykllo" role="tabpanel" aria-labelledby="Wykllo-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -463,13 +390,13 @@ Example : 1
 </ul>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="JMaiIZ" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="nftuJY-tab" data-bs-toggle="tab" data-bs-target="#nftuJY" type="button" role="tab" aria-controls="nftuJY" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="emkleX" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="nxbCvX-tab" data-bs-toggle="tab" data-bs-target="#nxbCvX" type="button" role="tab" aria-controls="nxbCvX" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="JMaiIZ-content">
-                    <div class="tab-pane active" id="nftuJY" role="tabpanel" aria-labelledby="nftuJY-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="emkleX-content">
+                    <div class="tab-pane active" id="nxbCvX" role="tabpanel" aria-labelledby="nxbCvX-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -514,13 +441,13 @@ Example : 1
 <p>To get the minimum value for each day we would use the following request:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="IBmTEV" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="rrWdOW-tab" data-bs-toggle="tab" data-bs-target="#rrWdOW" type="button" role="tab" aria-controls="rrWdOW" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="KDGhJh" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="jPOWMf-tab" data-bs-toggle="tab" data-bs-target="#jPOWMf" type="button" role="tab" aria-controls="jPOWMf" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="IBmTEV-content">
-                    <div class="tab-pane active" id="rrWdOW" role="tabpanel" aria-labelledby="rrWdOW-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="KDGhJh-content">
+                    <div class="tab-pane active" id="jPOWMf" role="tabpanel" aria-labelledby="jPOWMf-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -566,13 +493,13 @@ Example : 1
 <p>To use the UNIX epoch format we need to specify the <code>epoch</code> parameter.</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="RUGDGu" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="EqczeO-tab" data-bs-toggle="tab" data-bs-target="#EqczeO" type="button" role="tab" aria-controls="EqczeO" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="ixoyMM" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="LnaGBq-tab" data-bs-toggle="tab" data-bs-target="#LnaGBq" type="button" role="tab" aria-controls="LnaGBq" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="RUGDGu-content">
-                    <div class="tab-pane active" id="EqczeO" role="tabpanel" aria-labelledby="EqczeO-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="ixoyMM-content">
+                    <div class="tab-pane active" id="LnaGBq" role="tabpanel" aria-labelledby="LnaGBq-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -614,13 +541,13 @@ Example : 1
         </div><p>Instead of timestamps in RFC3339 format, all timestamp will now use the number of seconds since the UNIX epoch (January 1st 1970).</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="wZRCOR" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="SKMDmr-tab" data-bs-toggle="tab" data-bs-target="#SKMDmr" type="button" role="tab" aria-controls="SKMDmr" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="FVWiDe" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="BaxeDZ-tab" data-bs-toggle="tab" data-bs-target="#BaxeDZ" type="button" role="tab" aria-controls="BaxeDZ" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="wZRCOR-content">
-                    <div class="tab-pane active" id="SKMDmr" role="tabpanel" aria-labelledby="SKMDmr-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="FVWiDe-content">
+                    <div class="tab-pane active" id="BaxeDZ" role="tabpanel" aria-labelledby="BaxeDZ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>

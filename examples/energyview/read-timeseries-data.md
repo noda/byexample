@@ -10,92 +10,6 @@ We designed the TimeSeries API to be as easy to use as possible while allowing f
 > Whether you are required to escape the character manually or if the HTTP library you are using does this depends on the library's functionality.
 
 
-
-<!--
-This example shows how to read the TimeSeries data from the EnergyView APIv1.
-
-
-node_id
-(query)
-    
-
-Filter on the unique identifier (integer or UUID) for a specific node.
-
-Example : 1e8d8d9f-0e4b-4e4d-8f7b-8b1f3b1c1d1e
-node_ids
-string
-(query)
-    
-
-Filter on several unique node identifiers. Can not be used together with node_id. The paramater needs to be JSON encoded.
-
-Example : [1,2,3]
-tag
-string
-(query)
-    
-
-Filter on a sensor name.
-
-Example : outdoortemp
-tags
-string
-(query)
-    
-
-Filter on several sensor names. Can not be used together with tag. The paramater needs to be JSON encoded.
-start
-string($rfc3339)
-(query)
-    
-
-The {from} (>=) date-time string on the format YYYY-MM-DDThh:mm:ss±hh:mm. Without timezone information, the API will fall back to the time zone configured for the domain.
-
-Default value : now
-
-Example : 2020-01-01T00:00:00Z
-end
-string($rfc3339)
-(query)
-    
-
-The {to} (<=) date-time string on the format YYYY-MM-DDThh:mm:ss±hh:mm. Without timezone information, the API will fall back to the time zone configured for the domain.
-
-Default value : now
-
-Example : 2020-01-01T01:00:00Z
-resolution
-string
-(query)
-    
-
-Truncates all timestamps to any of (options), then computes the average for all points within the truncated period.
-
-Available values : second, minute, 5minute, 10minute, 15minute, 20minute, 30minute, hour, day, month, year, decade, century, millennia
-
-Example : minute
-aggregate
-string
-(query)
-    
-
-When using resolution. Select this aggregate function instead of the default avg when computing the result.
-
-Available values : avg, min, max, sum, count
-
-Example : avg
-epoch
-integer
-(query)
-    
-
-When enabled (set to 1), the ts field will be in Unix timestamp format (numeric) instead of a string. This is the number of seconds that have elapsed since the Unix epoch, the time 00:00:00 UTC on 1 January 1970.
-
-Available values : 0, 1
-
-Example : 1
--->
-
 ## Basic example with a single tag
 
 In the following example we extract data from a single tag on a single node.
@@ -138,6 +52,13 @@ import (
     "encoding/json"
 )
 
+```
+```shell
+curl -X GET \
+     -H "Authorization: Key demo-secret" \
+    -H "Accept: application/json" \
+    -d '{"node_id":"be65cf3b-dec1-479f-981f-54157d8588ff","tag":"outdoortemp","start":"2023-01-01T00:00:00+01:00","end":"2023-01-02T00:00:00+01:00"}' \
+    https://customer.noda.se/demo/api/v1/timeseries
 ```
 
 The format of the returned data is a JSON array of objects with the following fields:

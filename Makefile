@@ -12,6 +12,8 @@ docs:
 
 examples: $(EXAMPLE_TARGETS)
 
+index: docs/index.html
+
 # "loop" all examples and run byexample-page.py on each
 docs/%.html: examples/%.md
 	python byexample-page.py $^ $@
