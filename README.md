@@ -2,6 +2,7 @@
 
 Helpful guides on how to integrate your project with NODA services.
 
+
 ## Building the site
 
 There is a Makefile in the root of the repository. The following targets are available:
@@ -13,3 +14,12 @@ There is a Makefile in the root of the repository. The following targets are ava
 The build files is stored in the docs directory which is a GitHub pages site.
 
 Whenever the master branch is updated the site is automatically built and published.
+
+
+## Build dependencies
+
+* Python 3.10
+* Pygments
+* PyYAML
+* Marko
+
