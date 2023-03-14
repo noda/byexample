@@ -11,6 +11,7 @@ from marko.block import BlockElement, FencedCode, Heading
 from pygments import highlight
 from pygments.formatters import html
 from pygments.lexers import get_lexer_by_name, guess_lexer
+from pygments.lexers.go import GoLexer
 from pygments.styles import get_style_by_name as get_style
 from pygments.util import ClassNotFound
 
@@ -53,6 +54,11 @@ HTML5_TEMPLATE = Template(
 )
 
 
+class TengoLexer(GoLexer):
+    name = "Tengo"
+    aliases = ["tengo"]
+
+
 class FencedCodeGroup(BlockElement):
     """Fenced code block group: (```python\nhello\n```\n```go\nworld\n```\n)"""
 
@@ -79,6 +85,9 @@ class TabbedCodeRendererMixin(object):
                 lexer = get_lexer_by_name(element.lang, stripall=True)
             except ClassNotFound:
                 lexer = None
+
+            if element.lang == "tengo":
+                lexer = TengoLexer(stripall=True)
 
         if lexer is None:
             lexer = guess_lexer(code)

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tengil: About</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>Tengil: About</h1>
+<p>Tengil is a Program Manager and script environment which allows for advanced interaction with the data in EnergyView.</p>
+<p>Tengil is built upon the <a href="https://github.com/d5/tengo">Tengo programming language</a>, which is a scripting language and engine with syntax similar to Go. The purpose of the solution is to provide an interface for simple computations and ingesting data from external sources.</p>
+<p>Some of the built-in modules available in the Tengo engine are disabled in Tengil as security precautions. The following modules are disabled:</p>
+<ul>
+<li><code>os</code>: Platform-independent interface to operating system functionality</li>
+</ul>
+<p>The following existing modules are available from the Tengo engine:</p>
+<ul>
+<li><code>base64</code>: Base64 encoding and decoding functions</li>
+<li><code>enum</code>: Enumeration functions</li>
+<li><code>fmt</code>: Formatting functions</li>
+<li><code>hex</code>: Hex encoding and decoding functions</li>
+<li><code>json</code>: JSON functions</li>
+<li><code>math</code>: Mathematical constants and functions</li>
+<li><code>rand</code>: Random functions</li>
+<li><code>text</code>: Regular expressions, string conversion, and manipulation</li>
+<li><code>times</code>: Time-related functions</li>
+</ul>
+<p>The following new modules are added by Tengil:</p>
+<ul>
+<li><code>alert</code>: Alert functions to create and send alerts</li>
+<li><code>config</code>: Configuration functions to get and set configuration data</li>
+<li><code>dbstore</code>: Database functions to get and set timeseries data</li>
+<li><code>http</code>: HTTP functions to get, post, put and delete data</li>
+<li><code>log</code>: Logging functions</li>
+<li><code>memstore</code>: Memory functions to store temporary data</li>
+<li><code>resources</code>: Resource functions to get resources bound to a Program</li>
+</ul>
+<p>A simple Hello World example of a Tengil program:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="SQhHVM" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="zbnOTu-tab" data-bs-toggle="tab" data-bs-target="#zbnOTu" type="button" role="tab" aria-controls="zbnOTu" aria-selected="true">Tengo</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="SQhHVM-content">
+                    <div class="tab-pane active" id="zbnOTu" role="tabpanel" aria-labelledby="zbnOTu-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><span class="nx">log</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kn">import</span><span class="p">(</span><span class="s">&quot;log&quot;</span><span class="p">)</span>
+
+<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Or, a more &quot;complex&quot; example:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="UGdkEx" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="TTwwMw-tab" data-bs-toggle="tab" data-bs-target="#TTwwMw" type="button" role="tab" aria-controls="TTwwMw" aria-selected="true">Tengo</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="UGdkEx-content">
+                    <div class="tab-pane active" id="TTwwMw" role="tabpanel" aria-labelledby="TTwwMw-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><span class="nx">dbstore</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kn">import</span><span class="p">(</span><span class="s">&quot;dbstore&quot;</span><span class="p">)</span>
+
+<span class="c1">// Fetch the outdoortemp for Node with ID 1</span>
+<span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dbstore</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="s">&quot;1.outdoortemp&quot;</span><span class="p">)</span>
+
+<span class="cm">/* Format of data</span>
+<span class="cm">{</span>
+<span class="cm">    node_id: 1,</span>
+<span class="cm">    tag: &quot;outdoortemp&quot;,</span>
+<span class="cm">    timestamp: 2022-01-01 16:13:45.815817 +0100 CET,</span>
+<span class="cm">    value: 3.14,</span>
+<span class="cm">    unit: &quot;c&quot;</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Or, an even more &quot;complex&quot; example:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="RjpozV" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="dtIkTP-tab" data-bs-toggle="tab" data-bs-target="#dtIkTP" type="button" role="tab" aria-controls="dtIkTP" aria-selected="true">Tengo</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="RjpozV-content">
+                    <div class="tab-pane active" id="dtIkTP" role="tabpanel" aria-labelledby="dtIkTP-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><span class="nx">dbstore</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kn">import</span><span class="p">(</span><span class="s">&quot;dbstore&quot;</span><span class="p">)</span>
+
+<span class="c1">// Fetch the supply and return temperature for Node with ID 1</span>
+<span class="nx">supplytemp_sec</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dbstore</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="s">&quot;1.supplytemp_sec&quot;</span><span class="p">)</span>
+<span class="nx">returntemp_sec</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dbstore</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="s">&quot;1.returntemp_sec&quot;</span><span class="p">)</span>
+
+<span class="c1">// Find the latest timestamp</span>
+<span class="nx">ts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">supplytemp_sec</span><span class="p">.</span><span class="nx">timestamp</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">returntemp_sec</span><span class="p">.</span><span class="nx">timestamp</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="nx">ts</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">returntemp_sec</span><span class="p">.</span><span class="nx">timestamp</span>
+<span class="p">}</span>
+
+<span class="c1">// Calculate delta temperature</span>
+<span class="nx">delta_temp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">supplytemp_sec</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">returntemp_sec</span><span class="p">.</span><span class="nx">value</span>
+
+<span class="c1">// Store the delta temperature</span>
+<span class="nx">dbstore</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s">&quot;1.delta_temp&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">delta_temp</span><span class="p">,</span><span class="w"> </span><span class="nx">ts</span><span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/tengil/about.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

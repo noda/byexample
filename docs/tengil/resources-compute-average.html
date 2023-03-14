@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tengil: Compute an average for a set of Resources</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>Tengil: Compute an average for a set of Resources</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>This example shows how to compute an average for a set of Resources.</p>
+<p>First, the Program must have at least one Resource bound to it. This is easily done in the EnergyView UI.</p>
+<p>The Program can then access the Resources using the <code>resources</code> module.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="bHPqzL" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="SAbBob-tab" data-bs-toggle="tab" data-bs-target="#SAbBob" type="button" role="tab" aria-controls="SAbBob" aria-selected="true">Tengo</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="bHPqzL-content">
+                    <div class="tab-pane active" id="SAbBob" role="tabpanel" aria-labelledby="SAbBob-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><span class="nx">dbstore</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kn">import</span><span class="p">(</span><span class="s">&quot;dbstore&quot;</span><span class="p">)</span>
+<span class="nx">log</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kn">import</span><span class="p">(</span><span class="s">&quot;log&quot;</span><span class="p">)</span>
+<span class="nx">resources</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kn">import</span><span class="p">(</span><span class="s">&quot;resources&quot;</span><span class="p">)</span>
+
+<span class="c1">// Get all Resources bound to the Program</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">node_id</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="nx">resources</span><span class="p">.</span><span class="nx">GetNodes</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// node_id is the integer ID of the Node</span>
+<span class="w">    </span><span class="c1">// v is a map of details about the Node on the format;</span>
+<span class="w">    </span><span class="c1">// {</span>
+<span class="w">    </span><span class="c1">//     id: int64,         // integer ID of the Node</span>
+<span class="w">    </span><span class="c1">//     guid: string,      // UUID of the Node</span>
+<span class="w">    </span><span class="c1">//     dataif: string,    // Remote resource Identifier</span>
+<span class="w">    </span><span class="c1">//     name: string,      // Name of the Node</span>
+<span class="w">    </span><span class="c1">//     device: string,    // Device type of the Node</span>
+<span class="w">    </span><span class="c1">//     object: string,    // Object type of the Node</span>
+<span class="w">    </span><span class="c1">//     sensors: []string, // List of sensor tags</span>
+<span class="w">    </span><span class="c1">//     parent: int64,     // Parent Node ID</span>
+<span class="w">    </span><span class="c1">//     children: []int64, // List of child Node IDs</span>
+<span class="w">    </span><span class="c1">// }</span>
+
+<span class="w">    </span><span class="nx">node_tags</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">tag</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="nx">v</span><span class="p">.</span><span class="nx">sensors</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="s">&quot;outdoortemp&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">tag</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">node_tags</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">tags</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">sprintf</span><span class="p">(</span><span class="s">&quot;%d.%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">node_id</span><span class="p">,</span><span class="w"> </span><span class="nx">tag</span><span class="p">))</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">total</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.0</span>
+<span class="nx">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">row</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="nx">dbstore</span><span class="p">.</span><span class="nx">GetMulti</span><span class="p">(</span><span class="nx">node_tags</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">row</span><span class="p">.</span><span class="nx">value</span>
+<span class="w">    </span><span class="nx">count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">avg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">total</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">count</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">sprintf</span><span class="p">(</span><span class="s">&quot;Average is %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">avg</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/tengil/resources-compute-average.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
