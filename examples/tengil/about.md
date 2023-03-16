@@ -1,5 +1,7 @@
 # Tengil: About
 
+[Back to index](/index.html)
+
 Tengil is a Program Manager and scripting environment that enables advanced interaction with data in EnergyView.
 
 Built on the [Tengo programming language](https://github.com/d5/tengo), Tengil shares a similar syntax with Go and serves as an interface for basic calculations and data ingestion from external sources.
