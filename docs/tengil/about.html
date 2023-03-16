@@ -20,44 +20,44 @@
         <div class="row">
             <div class="col-12">
             <h1>Tengil: About</h1>
-<p>Tengil is a Program Manager and script environment which allows for advanced interaction with the data in EnergyView.</p>
-<p>Tengil is built upon the <a href="https://github.com/d5/tengo">Tengo programming language</a>, which is a scripting language and engine with syntax similar to Go. The purpose of the solution is to provide an interface for simple computations and ingesting data from external sources.</p>
-<p>Some of the built-in modules available in the Tengo engine are disabled in Tengil as security precautions. The following modules are disabled:</p>
+<p>Tengil is a Program Manager and scripting environment that enables advanced interaction with data in EnergyView.</p>
+<p>Built on the <a href="https://github.com/d5/tengo">Tengo programming language</a>, Tengil shares a similar syntax with Go and serves as an interface for basic calculations and data ingestion from external sources.</p>
+<p>For security reasons, some built-in Tengo engine modules are disabled in Tengil. The disabled modules include:</p>
 <ul>
-<li><code>os</code>: Platform-independent interface to operating system functionality</li>
+<li><code>os</code>: A platform-independent interface for operating system functionality</li>
 </ul>
-<p>The following existing modules are available from the Tengo engine:</p>
+<p>Tengil supports the following existing Tengo engine modules:</p>
 <ul>
-<li><code>base64</code>: Base64 encoding and decoding functions</li>
+<li><code>base64</code>: Functions for encoding and decoding Base64</li>
 <li><code>enum</code>: Enumeration functions</li>
 <li><code>fmt</code>: Formatting functions</li>
-<li><code>hex</code>: Hex encoding and decoding functions</li>
+<li><code>hex</code>: Functions for encoding and decoding Hex</li>
 <li><code>json</code>: JSON functions</li>
 <li><code>math</code>: Mathematical constants and functions</li>
 <li><code>rand</code>: Random functions</li>
 <li><code>text</code>: Regular expressions, string conversion, and manipulation</li>
 <li><code>times</code>: Time-related functions</li>
 </ul>
-<p>The following new modules are added by Tengil:</p>
+<p>Additionally, Tengil introduces the following new modules:</p>
 <ul>
-<li><code>alert</code>: Alert functions to create and send alerts</li>
-<li><code>config</code>: Configuration functions to get and set configuration data</li>
-<li><code>dbstore</code>: Database functions to get and set timeseries data</li>
-<li><code>http</code>: HTTP functions to get, post, put and delete data</li>
+<li><code>alert</code>: Functions to create and send alerts</li>
+<li><code>config</code>: Functions to get and set configuration data</li>
+<li><code>dbstore</code>: Functions to get and set timeseries data in the database</li>
+<li><code>http</code>: Functions to get, post, put, and delete data via HTTP</li>
 <li><code>log</code>: Logging functions</li>
-<li><code>memstore</code>: Memory functions to store temporary data</li>
-<li><code>resources</code>: Resource functions to get resources bound to a Program</li>
+<li><code>memstore</code>: Functions for temporary data storage in memory</li>
+<li><code>resources</code>: Functions to access EnergyView resources associated with a Program</li>
 </ul>
-<p>A simple Hello World example of a Tengil program:</p>
+<p>A simple &quot;Hello World&quot; example of a Tengil program:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="SQhHVM" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="zbnOTu-tab" data-bs-toggle="tab" data-bs-target="#zbnOTu" type="button" role="tab" aria-controls="zbnOTu" aria-selected="true">Tengo</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="eGWfin" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="tZhfrm-tab" data-bs-toggle="tab" data-bs-target="#tZhfrm" type="button" role="tab" aria-controls="tZhfrm" aria-selected="true">Tengo</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="SQhHVM-content">
-                    <div class="tab-pane active" id="zbnOTu" role="tabpanel" aria-labelledby="zbnOTu-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+                <div class="tab-content" id="eGWfin-content">
+                    <div class="tab-pane active" id="tZhfrm" role="tabpanel" aria-labelledby="tZhfrm-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><span class="nx">log</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kn">import</span><span class="p">(</span><span class="s">&quot;log&quot;</span><span class="p">)</span>
 
@@ -69,13 +69,13 @@
         </div><p>Or, a more &quot;complex&quot; example:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="UGdkEx" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="TTwwMw-tab" data-bs-toggle="tab" data-bs-target="#TTwwMw" type="button" role="tab" aria-controls="TTwwMw" aria-selected="true">Tengo</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="SAtRQZ" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="vUihKJ-tab" data-bs-toggle="tab" data-bs-target="#vUihKJ" type="button" role="tab" aria-controls="vUihKJ" aria-selected="true">Tengo</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="UGdkEx-content">
-                    <div class="tab-pane active" id="TTwwMw" role="tabpanel" aria-labelledby="TTwwMw-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="SAtRQZ-content">
+                    <div class="tab-pane active" id="vUihKJ" role="tabpanel" aria-labelledby="vUihKJ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -109,13 +109,13 @@
         </div><p>Or, an even more &quot;complex&quot; example:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="RjpozV" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="dtIkTP-tab" data-bs-toggle="tab" data-bs-target="#dtIkTP" type="button" role="tab" aria-controls="dtIkTP" aria-selected="true">Tengo</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="dfnQzE" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="ZGpIaM-tab" data-bs-toggle="tab" data-bs-target="#ZGpIaM" type="button" role="tab" aria-controls="ZGpIaM" aria-selected="true">Tengo</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="RjpozV-content">
-                    <div class="tab-pane active" id="dtIkTP" role="tabpanel" aria-labelledby="dtIkTP-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="dfnQzE-content">
+                    <div class="tab-pane active" id="ZGpIaM" role="tabpanel" aria-labelledby="ZGpIaM-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
