@@ -1,36 +1,36 @@
 # Tengil: About
 
-Tengil is a Program Manager and script environment which allows for advanced interaction with the data in EnergyView.
+Tengil is a Program Manager and scripting environment that enables advanced interaction with data in EnergyView.
 
-Tengil is built upon the [Tengo programming language](https://github.com/d5/tengo), which is a scripting language and engine with syntax similar to Go. The purpose of the solution is to provide an interface for simple computations and ingesting data from external sources.
+Built on the [Tengo programming language](https://github.com/d5/tengo), Tengil shares a similar syntax with Go and serves as an interface for basic calculations and data ingestion from external sources.
 
-Some of the built-in modules available in the Tengo engine are disabled in Tengil as security precautions. The following modules are disabled:
+For security reasons, some built-in Tengo engine modules are disabled in Tengil. The disabled modules include:
 
-- `os`: Platform-independent interface to operating system functionality
+- `os`: A platform-independent interface for operating system functionality
 
-The following existing modules are available from the Tengo engine:
+Tengil supports the following existing Tengo engine modules:
 
-- `base64`: Base64 encoding and decoding functions
+- `base64`: Functions for encoding and decoding Base64
 - `enum`: Enumeration functions
 - `fmt`: Formatting functions
-- `hex`: Hex encoding and decoding functions
+- `hex`: Functions for encoding and decoding Hex
 - `json`: JSON functions
 - `math`: Mathematical constants and functions
 - `rand`: Random functions
 - `text`: Regular expressions, string conversion, and manipulation
 - `times`: Time-related functions
 
-The following new modules are added by Tengil:
+Additionally, Tengil introduces the following new modules:
 
-- `alert`: Alert functions to create and send alerts
-- `config`: Configuration functions to get and set configuration data
-- `dbstore`: Database functions to get and set timeseries data
-- `http`: HTTP functions to get, post, put and delete data
+- `alert`: Functions to create and send alerts
+- `config`: Functions to get and set configuration data
+- `dbstore`: Functions to get and set timeseries data in the database
+- `http`: Functions to get, post, put, and delete data via HTTP
 - `log`: Logging functions
-- `memstore`: Memory functions to store temporary data
-- `resources`: Resource functions to get resources bound to a Program
+- `memstore`: Functions for temporary data storage in memory
+- `resources`: Functions to access EnergyView resources associated with a Program
 
-A simple Hello World example of a Tengil program:
+A simple "Hello World" example of a Tengil program:
 
 ```tengo
 log := import("log")
