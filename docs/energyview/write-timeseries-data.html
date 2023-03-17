@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyView API: Write TimeSeries data</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <!--
+    
+ * @OA\Schema(
+ *     schema="TimeseriesList",
+ *     type="object",
+ *     @OA\Property(
+ *    property="timeseries",
+ *    type="array",
+ *    @OA\Items(ref="#/components/schemas/Timeseries")
+ *    )
+ * )
+ * 
+ * @OA\Schema(
+ *     schema="Timeseries",
+ *     type="object",
+ *     @OA\Property(property="node_id", type="integer", description="Node ID"),
+ *     @OA\Property(property="tag", type="string", description="Tag"),
+ *     @OA\Property(property="data", type="array", description="Data", @OA\Items(ref="#/components/schemas/TimeseriesData")),
+ * )
+ * 
+ * @OA\Schema(
+ *     schema="TimeseriesData",
+ *     type="object",
+ *        @OA\Property(property="v", type="number", description="Value"),
+ *     @OA\Property(property="ts", type="string", description="Timestamp in RFC3339 format"),
+ * )
+
+     * @OA\Post(
+     *     path="/timeseries",
+     *     tags={"timeseries"},
+     *     summary="Insert data into existing timeseries",
+     *     @OA\RequestBody(
+     *     description="Insert timeseries data",
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="application/json",
+     *         @OA\Schema(
+     *         type="array",
+     *         description="Insert multiple timeseries data points",
+     *         @OA\Items(
+     *             required={"tag", "data"},
+     *             @OA\Property(property="node_id", type="string", description="Node ID, should not be supplied together with node_uuid", example="123"),
+     *             @OA\Property(property="node_uuid", type="string", description="Node UUID, should not be supplied together with node_id", example="12345678-1234-1234-1234-123456789012"),
+     *                @OA\Property(property="tag", type="string", description="Tag (sensor) name", example="outdoortemp"),
+     *             @OA\Property(property="data", type="array", description="Array of data points", @OA\Items(ref="#/components/schemas/TimeseriesData"))
+     *         )
+     *         )
+     *     ),
+     *     @OA\MediaType(
+     *         mediaType="application/x-www-form-urlencoded",
+     *         @OA\Schema(
+     *         description="Insert a single timeseries data point",
+     *         required={"node_id", "tag", "val", "ts"},
+     *         @OA\Property(property="node_id", type="string", description="Node ID, should not be supplied together with node_uuid", example="123"),
+     *         @OA\Property(property="node_uuid", type="string", description="Node UUID, should not be supplied together with node_id", example="12345678-1234-1234-1234-123456789012"),
+     *         @OA\Property(property="tag", type="string", description="Tag (sensor) name", example="outdoortemp"),
+     *         @OA\Property(property="val", type="number", description="Value", example="12.3"),
+     *         @OA\Property(property="ts", type="date-time", description="Timestamp in RFC3339 format", example="2019-01-01T12:00:00Z")
+     *         )
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *     name="overwrite",
+     *     in="query",
+     *     description="Overwrite existing data points. A replace will delete the window and insert new data. An update will only insert new data points. The window is defined by the earliest timestamp and the latest timestamp of the data points.",
+     *     required=false,
+     *     @OA\Schema(
+     *         type="string",
+     *         enum={"replace_window", "update_window"},
+     *     )
+     *     ),
+     *     @OA\Parameter(
+     *     name="silent",
+     *     in="query",
+     *     description="Do not return any data",
+     *     required=false,
+     *     @OA\Schema(
+     *         type="string",
+     *         enum={"true", "false"},
+     *     )
+     *     ),
+     *     @OA\Response(response="200", description="OK", @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Timeseries"))),
+     *     @OA\Response(response="204", description="No Content"),
+     *     @OA\Response(response="400", description="Bad Request"),
+     *     @OA\Response(response="401", description="Unauthorized"),
+     *     @OA\Response(response="403", description="Forbidden"),
+     * )
+     * 
+     * @param \Base $f3
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+-->
+<h1>EnergyView API: Write TimeSeries data</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>The ability to store TimeSeries data via requests is one of the main purposes of the EnergyView API. It is the foundation of the EnergyView system.</p>
+<h2>Basic example with a single tag</h2>
+<p>In the following example we store data for a single tag on a single node.</p>
+<p>To allow for more complex use-cases, the id of a Node can be either an <code>integer</code> or a <code>UUID</code>.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="jXfQtM" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="avrxuK-tab" data-bs-toggle="tab" data-bs-target="#avrxuK" type="button" role="tab" aria-controls="avrxuK" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="wIHCmV-tab" data-bs-toggle="tab" data-bs-target="#wIHCmV" type="button" role="tab" aria-controls="wIHCmV" aria-selected="true">Go</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="jXfQtM-content">
+                    <div class="tab-pane active" id="avrxuK" role="tabpanel" aria-labelledby="avrxuK-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">}</span>    <span class="c1"># 204 No Content</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.3</span><span class="p">,</span> <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:00:00Z&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.4</span><span class="p">,</span> <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:10:00Z&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.5</span><span class="p">,</span> <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:20:00Z&quot;</span><span class="p">},</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">reply</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="wIHCmV" role="tabpanel" aria-labelledby="wIHCmV-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bytes&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/json&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">domain</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;demo&quot;</span>
+<span class="w">    </span><span class="nx">secret</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;demo-secret&quot;</span>
+<span class="w">    </span><span class="nx">headers</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;Authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Key &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">secret</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;Content-Type&quot;</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;application/json&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">params</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;silent=true&quot;</span><span class="w"> </span><span class="c1">// 204 No Content</span>
+<span class="w">    </span><span class="nx">url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;https://customer.noda.se/%s/api/v1/timeseries?%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">domain</span><span class="p">,</span><span class="w"> </span><span class="nx">params</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}{</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="s">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;tag&quot;</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;outdoortemp&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}{</span>
+<span class="w">                </span><span class="p">{</span><span class="s">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2023-01-01T12:00:00Z&quot;</span><span class="p">},</span>
+<span class="w">                </span><span class="p">{</span><span class="s">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2023-01-01T12:10:00Z&quot;</span><span class="p">},</span>
+<span class="w">                </span><span class="p">{</span><span class="s">&quot;v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ts&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2023-01-01T12:20:00Z&quot;</span><span class="p">},</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">dataBytes</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshal</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s">&quot;POST&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">NewBuffer</span><span class="p">(</span><span class="nx">dataBytes</span><span class="p">))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">req</span><span class="p">.</span><span class="nx">Header</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">client</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span><span class="p">{}</span>
+<span class="w">    </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Do</span><span class="p">(</span><span class="nx">req</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">StatusCode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">204</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><h2>Basic example with multiple tags and nodes</h2>
+<p>The code is the same as above, the only difference is that we add more data points.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="UBBjRq" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="AKYCJz-tab" data-bs-toggle="tab" data-bs-target="#AKYCJz" type="button" role="tab" aria-controls="AKYCJz" aria-selected="true">Python</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="UBBjRq-content">
+                    <div class="tab-pane active" id="AKYCJz" role="tabpanel" aria-labelledby="AKYCJz-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.3</span><span class="p">,</span> <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:00:00Z&quot;</span><span class="p">}</span>
+        <span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:00:00Z&quot;</span><span class="p">}</span>
+        <span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;12345678-1234-1234-1234-123456789012&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.3</span><span class="p">,</span> <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:00:00Z&quot;</span><span class="p">}</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>As you can see, the <code>node_id</code> can be either an <code>integer</code> or a <code>UUID</code>.</p>
+<h2>Overwrite existing data</h2>
+<p>The <code>overwrite</code> parameter can be used to overwrite existing data points.</p>
+<blockquote>
+<p><em>NOTE</em>: You are replacing data when doing this. So be sure that you know what you are doing.</p>
+</blockquote>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="AynPEN" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="fWzvdg-tab" data-bs-toggle="tab" data-bs-target="#fWzvdg" type="button" role="tab" aria-controls="fWzvdg" aria-selected="true">Python</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="AynPEN-content">
+                    <div class="tab-pane active" id="fWzvdg" role="tabpanel" aria-labelledby="fWzvdg-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">}</span>    <span class="c1"># 204 No Content</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
+
+<span class="c1"># Add the overwrite parameter to params</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;overwrite&quot;</span><span class="p">:</span> <span class="s2">&quot;replace_window&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+             <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.3</span><span class="p">,</span>
+             <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:00:00Z&quot;</span>    <span class="c1"># This marks the start of the window</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.4</span><span class="p">,</span>
+                <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:10:00Z&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mf">12.5</span><span class="p">,</span>
+                <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T12:20:00Z&quot;</span>    <span class="c1"># This marks the end of the window</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">reply</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>The possible values for <code>overwrite</code> are:</p>
+<ul>
+<li><code>replace_window</code> - Delete the window (start and end timestamp of the data points) and insert new data </li>
+<li><code>update_window</code> - Only insert new data points, update existing data points at the same timestamp with new values</li>
+</ul>
+
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/energyview/write-timeseries-data.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
