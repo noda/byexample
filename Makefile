@@ -17,7 +17,7 @@ $(EXAMPLE_DIRS):
 	mkdir -p $@
 
 docs/CNAME:
-	echo byexample.org > $@
+	echo -n byexample.noda.se > $@
 
 docs/css:
 	mkdir -p $@
