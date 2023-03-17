@@ -1,5 +1,6 @@
 # Generate an index for all examples
 
+import datetime
 import os
 import pathlib
 import sys
@@ -104,7 +105,14 @@ def main(argv):
     with open("templates/index.html", "r") as f:
         template = Template(f.read())
 
-    html = template.substitute(title=title, body=body)
+    # Current date on the format March 15, 2023
+    todate = datetime.datetime.now().strftime("%B %d, %Y")
+
+    html = template.substitute(
+        title=title,
+        body=body,
+        last_updated=todate,
+    )
     print(html)
 
 
