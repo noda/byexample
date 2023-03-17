@@ -1,5 +1,6 @@
 # use Marko to parse several code blocks
 
+import datetime
 import pathlib
 import random
 import string
@@ -14,44 +15,6 @@ from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.lexers.go import GoLexer
 from pygments.styles import get_style_by_name as get_style
 from pygments.util import ClassNotFound
-
-HTML5_TEMPLATE = Template(
-    """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$title</title>
-    
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/nord-darker.css">
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-            $body
-            </div>
-        </div>
-
-        <footer class="footer col-12">
-            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
-            <a href="https://github.com/noda/byexample/blob/main/examples/$source">source</a> |
-            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
-        </footer>
-    </div>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-"""
-)
 
 
 class TengoLexer(GoLexer):
@@ -167,7 +130,7 @@ class TabbedCode:
 
 
 def main(argv):
-    if len(argv) < 1:
+    if len(argv) < 1 or len(argv) > 2:
         print("Usage: byexample-page <input.md> [output.html]")
         return
 
@@ -207,8 +170,17 @@ def main(argv):
 
     p = pathlib.Path(input_file)
 
-    html5 = HTML5_TEMPLATE.substitute(
-        title=title, body=body, source=pathlib.Path(*p.parts[1:])
+    # Current date on the format March 15, 2023
+    todate = datetime.datetime.now().strftime("%B %d, %Y")
+
+    with open("templates/example.html", "r") as f:
+        template = Template(f.read())
+
+    html5 = template.substitute(
+        title=title,
+        body=body,
+        source=pathlib.Path(*p.parts[1:]),
+        last_updated=todate,
     )
 
     if output_file is None:

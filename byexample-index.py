@@ -9,43 +9,6 @@ import yaml
 from marko import Markdown
 from marko.block import Heading
 
-HTML5_TEMPLATE = Template(
-    """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-    <title>$title</title>
-
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-            $body
-            </div>
-
-            <footer class="footer col-12">
-                by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
-                <a href="https://github.com/noda/byexample">source</a> |
-                <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a>
-            </footer>
-        </div>
-    </div>
-</body>
-</html>
-"""
-)
-
 MD_TEMPLATE = Template(
     """# $title
 
@@ -138,7 +101,10 @@ def main(argv):
     doc = md.parse(content)
     body = md.renderer.render(doc)
 
-    html = HTML5_TEMPLATE.substitute(title=title, body=body)
+    with open("templates/index.html", "r") as f:
+        template = Template(f.read())
+
+    html = template.substitute(title=title, body=body)
     print(html)
 
 
