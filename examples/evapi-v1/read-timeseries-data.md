@@ -1,4 +1,7 @@
-# EnergyView API: Read TimeSeries data
+---
+priority: 2
+---
+# Read TimeSeries data
 
 [Back to index](/index.html)
 
@@ -41,17 +44,6 @@ data = {
 reply = requests.get(url, headers=header, data=data)
 
 print(reply.json())
-```
-```go
-package main
-
-import (
-    "fmt"
-    "net/http"
-    "io/ioutil"
-    "encoding/json"
-)
-
 ```
 ```shell
 curl -X GET \

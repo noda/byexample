@@ -1,4 +1,4 @@
-# Tengil: Compute an average for a set of Resources
+# Compute an average for a set of Resources
 
 [Back to index](/index.html)
 

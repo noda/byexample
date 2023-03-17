@@ -1,4 +1,7 @@
-# EnergyView API: Authentication
+---
+priority: 1
+---
+# Authentication
 
 [Back to index](/index.html)
 

@@ -1,4 +1,4 @@
-# Tengil: About
+# About
 
 [Back to index](/index.html)
 

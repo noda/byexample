@@ -1,4 +1,7 @@
-# EnergyView API: Write TimeSeries data
+---
+priority: 3
+---
+# Write TimeSeries data
 
 [Back to index](/index.html)
 

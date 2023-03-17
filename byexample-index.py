@@ -6,6 +6,7 @@ import pathlib
 import sys
 from string import Template
 
+import frontmatter
 import yaml
 from marko import Markdown
 from marko.block import Heading
@@ -63,12 +64,15 @@ def get_structure(folder):
             file_path = os.path.join(dirpath, filename)
             if filename.endswith(".md"):
                 p = pathlib.Path(file_path)
+                title = extract_title_from_md_file(file_path)
+
                 output[dirpath]["examples"].append(
                     {
                         "path": pathlib.Path(*p.parts[1:])
                         .as_posix()
                         .replace(".md", ".html"),
-                        "title": extract_title_from_md_file(file_path),
+                        "title": title,
+                        "frontmatter": frontmatter.load(file_path).metadata,
                     }
                 )
 
@@ -92,6 +96,30 @@ def main(argv):
         return
 
     structure = get_structure(argv[0])
+
+    # sort by product name
+    structure = {
+        k: v
+        for k, v in sorted(
+            structure.items(), key=lambda item: item[1]["metadata"]["product"]
+        )
+    }
+
+    # sort examples by frontmatter priority and title
+    structure = {
+        k: {
+            "metadata": v["metadata"],
+            "examples": sorted(
+                v["examples"],
+                key=lambda item: (
+                    item["frontmatter"].get("priority", 9999),
+                    item["title"],
+                ),
+            ),
+        }
+        for k, v in structure.items()
+    }
+
     md_content = render_structure_as_md(structure)
 
     title = "NODA by Example"

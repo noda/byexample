@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EnergyView APIv2: EnergyView APIv2: Authentication</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView APIv2: Authentication</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>This example shows how to authenticate to the EnergyView APIv2.</p>
+<p>The API uses keys to authenticate requests. An API key is a unique string of characters that is used to identify the calling system and provide it with access to the resources.</p>
+<p>To view and manage API keys, you need to have administrative access to the account page.</p>
+<blockquote>
+<p>API keys carry important privileges and should be kept secure at all times. It is important not to share your secret API keys in publicly accessible areas such as social media, client-side code, and so forth.</p>
+</blockquote>
+<p>Authentication to the API is performed using HTTP Basic Auth. The username is the domain name and the password is the API key. For example, the Authorization header should be set as follows:</p>
+<blockquote>
+<p><em>Authorization: Basic aDR4WDByOnNvMTMzN3VS</em></p>
+</blockquote>
+<p>For details about HTTP Basic Auth, see <a href="https://tools.ietf.org/html/rfc7617">RFC 7617</a>. Or if you want, you can read Wikipedia's <a href="https://en.wikipedia.org/wiki/Basic_access_authentication#Client_side">article</a>.</p>
+<p>It is important to note that all API requests must be made over HTTPS. API requests that are not authenticated using the API key will fail.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="UwOUEL" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="ydmeHZ-tab" data-bs-toggle="tab" data-bs-target="#ydmeHZ" type="button" role="tab" aria-controls="ydmeHZ" aria-selected="true">Python</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="UwOUEL-content">
+                    <div class="tab-pane active" id="ydmeHZ" role="tabpanel" aria-labelledby="ydmeHZ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;mydomain&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;mysecretkey&quot;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/api/v2/nodes&quot;</span>
+
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">secret</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">reply</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Request succeeded&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v2/authentication.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
+            Last updated: <span class="last-updated">March 17, 2023</span>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

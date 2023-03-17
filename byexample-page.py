@@ -1,12 +1,15 @@
 # use Marko to parse several code blocks
 
 import datetime
+import os
 import pathlib
 import random
 import string
 import sys
 from string import Template
 
+import frontmatter
+import yaml
 from marko import Markdown
 from marko.block import BlockElement, FencedCode, Heading
 from pygments import highlight
@@ -147,26 +150,51 @@ def main(argv):
                 result.append(element)
         return result
 
-    def get_page_title(elements):
+    def get_page_title(elements, prefix=""):
         """Get page title from the first h1 element."""
         for element in elements:
             if isinstance(element, Heading) and element.level == 1:
-                return element.children[0].children
-        return "Untitled"
+                return (
+                    element.children[0].children
+                    if prefix == ""
+                    else f"{prefix}: {element.children[0].children}"
+                )
+        return f"{prefix}: Untitled"
 
     input_file = argv[0]
     output_file = argv[1] if len(argv) > 1 else None
 
     file_content = ""
     with open(input_file, "r") as f:
-        file_content = f.read()
+        post = frontmatter.load(f)
+        file_content = post.content
+
+    input_dir = os.path.dirname(input_file)
+
+    # Check for the metadata.yaml file
+    metadata_file = pathlib.Path(input_dir, "metadata.yaml")
+    if metadata_file.exists():
+        metadata = yaml.safe_load(metadata_file.read_text())
+    else:
+        # Print to stderr
+        print(f"WARNING: No metadata file found at {metadata_file}", file=sys.stderr)
+        metadata = {}
 
     markdown = Markdown(extensions=[TabbedCode])
     doc = markdown.parse(file_content)
     doc.children = group_fenced_code_blocks(doc.children)
 
+    # Replace the first h1 from doc.children with the prefix and title
+    # from the metadata file.
+    for index, element in enumerate(doc.children):
+        if isinstance(element, Heading) and element.level == 1:
+            doc.children[index].children[0].children = (
+                metadata.get("prefix", "") + ": " + element.children[0].children
+            )
+            break
+
     body = markdown.renderer.render(doc)
-    title = get_page_title(doc.children)
+    title = get_page_title(doc.children, prefix=metadata.get("prefix", ""))
 
     p = pathlib.Path(input_file)
 

@@ -49,4 +49,4 @@ clean:
 	rm -rf docs/CNAME
 	rm -rf $(EXAMPLE_TARGETS)
 
-.PHONY: all clean docs/CNAME docs/css docs/js
+.PHONY: all clean docs/CNAME docs/css docs/js docs/index.html

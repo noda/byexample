@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>EnergyView API: Read TimeSeries data</title>
+    <title>EnergyView APIv1: EnergyView APIv1: Read TimeSeries data</title>
     
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +20,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-12">
-            <h1>EnergyView API: Read TimeSeries data</h1>
+            <h1>EnergyView APIv1: Read TimeSeries data</h1>
 <p><a href="/index.html">Back to index</a></p>
 <p>The ability to read or extract TimeSeries data via requests is the second most important function of the EnergyView API. It is only preceded by the function to store data in the database.</p>
 <p>We designed the TimeSeries API to be as easy to use as possible while allowing for more complex use cases.</p>
@@ -40,13 +40,13 @@ Whether you are required to escape the character manually or if the HTTP library
 </ul>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="ZPHwdR" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="ubCYQA-tab" data-bs-toggle="tab" data-bs-target="#ubCYQA" type="button" role="tab" aria-controls="ubCYQA" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="tLGHBI-tab" data-bs-toggle="tab" data-bs-target="#tLGHBI" type="button" role="tab" aria-controls="tLGHBI" aria-selected="true">Go</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="gKIyKz-tab" data-bs-toggle="tab" data-bs-target="#gKIyKz" type="button" role="tab" aria-controls="gKIyKz" aria-selected="true">Bash</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="TKaDNz" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="fxusSs-tab" data-bs-toggle="tab" data-bs-target="#fxusSs" type="button" role="tab" aria-controls="fxusSs" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="XSXivC-tab" data-bs-toggle="tab" data-bs-target="#XSXivC" type="button" role="tab" aria-controls="XSXivC" aria-selected="true">Bash</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="ZPHwdR-content">
-                    <div class="tab-pane active" id="ubCYQA" role="tabpanel" aria-labelledby="ubCYQA-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="TKaDNz-content">
+                    <div class="tab-pane active" id="fxusSs" role="tabpanel" aria-labelledby="fxusSs-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -80,23 +80,7 @@ Whether you are required to escape the character manually or if the HTTP library
 
 <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div></td></tr></table></div>
-</div><div class="tab-pane " id="tLGHBI" role="tabpanel" aria-labelledby="tLGHBI-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
-<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
-<span class="w">    </span><span class="s">&quot;io/ioutil&quot;</span>
-<span class="w">    </span><span class="s">&quot;encoding/json&quot;</span>
-<span class="p">)</span>
-</pre></div></td></tr></table></div>
-</div><div class="tab-pane " id="gKIyKz" role="tabpanel" aria-labelledby="gKIyKz-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+</div><div class="tab-pane " id="XSXivC" role="tabpanel" aria-labelledby="XSXivC-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
@@ -112,13 +96,13 @@ Whether you are required to escape the character manually or if the HTTP library
         </div><p>The format of the returned data is a JSON array of objects with the following fields:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="vssJvu" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="QngnqL-tab" data-bs-toggle="tab" data-bs-target="#QngnqL" type="button" role="tab" aria-controls="QngnqL" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="IuVWiF" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="aVKQQr-tab" data-bs-toggle="tab" data-bs-target="#aVKQQr" type="button" role="tab" aria-controls="aVKQQr" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="vssJvu-content">
-                    <div class="tab-pane active" id="QngnqL" role="tabpanel" aria-labelledby="QngnqL-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="IuVWiF-content">
+                    <div class="tab-pane active" id="aVKQQr" role="tabpanel" aria-labelledby="aVKQQr-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -188,13 +172,13 @@ Whether you are required to escape the character manually or if the HTTP library
 </ul>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="Wpvhea" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="VaCIKX-tab" data-bs-toggle="tab" data-bs-target="#VaCIKX" type="button" role="tab" aria-controls="VaCIKX" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="HURqhr" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="rjguPx-tab" data-bs-toggle="tab" data-bs-target="#rjguPx" type="button" role="tab" aria-controls="rjguPx" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="Wpvhea-content">
-                    <div class="tab-pane active" id="VaCIKX" role="tabpanel" aria-labelledby="VaCIKX-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="HURqhr-content">
+                    <div class="tab-pane active" id="rjguPx" role="tabpanel" aria-labelledby="rjguPx-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -250,13 +234,13 @@ Whether you are required to escape the character manually or if the HTTP library
         </div><p>The format of the returned data is the same as for the first Basic example with a single tag. The only difference is that there will be several objects inside the timeseries array:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="rIhLBY" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="yQdDrA-tab" data-bs-toggle="tab" data-bs-target="#yQdDrA" type="button" role="tab" aria-controls="yQdDrA" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="ufbKge" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="lzCZWe-tab" data-bs-toggle="tab" data-bs-target="#lzCZWe" type="button" role="tab" aria-controls="lzCZWe" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="rIhLBY-content">
-                    <div class="tab-pane active" id="yQdDrA" role="tabpanel" aria-labelledby="yQdDrA-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="ufbKge-content">
+                    <div class="tab-pane active" id="lzCZWe" role="tabpanel" aria-labelledby="lzCZWe-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -391,13 +375,13 @@ Whether you are required to escape the character manually or if the HTTP library
 </ul>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="uJRLBl" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="byudOi-tab" data-bs-toggle="tab" data-bs-target="#byudOi" type="button" role="tab" aria-controls="byudOi" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="ZAcNQA" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="ssZgdQ-tab" data-bs-toggle="tab" data-bs-target="#ssZgdQ" type="button" role="tab" aria-controls="ssZgdQ" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="uJRLBl-content">
-                    <div class="tab-pane active" id="byudOi" role="tabpanel" aria-labelledby="byudOi-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="ZAcNQA-content">
+                    <div class="tab-pane active" id="ssZgdQ" role="tabpanel" aria-labelledby="ssZgdQ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -442,13 +426,13 @@ Whether you are required to escape the character manually or if the HTTP library
 <p>To get the minimum value for each day we would use the following request:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="OAngtP" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="SefcsI-tab" data-bs-toggle="tab" data-bs-target="#SefcsI" type="button" role="tab" aria-controls="SefcsI" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="oCUIhL" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="mxXQma-tab" data-bs-toggle="tab" data-bs-target="#mxXQma" type="button" role="tab" aria-controls="mxXQma" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="OAngtP-content">
-                    <div class="tab-pane active" id="SefcsI" role="tabpanel" aria-labelledby="SefcsI-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="oCUIhL-content">
+                    <div class="tab-pane active" id="mxXQma" role="tabpanel" aria-labelledby="mxXQma-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -494,13 +478,13 @@ Whether you are required to escape the character manually or if the HTTP library
 <p>To use the UNIX epoch format we need to specify the <code>epoch</code> parameter.</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="UbquPB" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="USqiYI-tab" data-bs-toggle="tab" data-bs-target="#USqiYI" type="button" role="tab" aria-controls="USqiYI" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="vBoMAZ" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="lJjTTC-tab" data-bs-toggle="tab" data-bs-target="#lJjTTC" type="button" role="tab" aria-controls="lJjTTC" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="UbquPB-content">
-                    <div class="tab-pane active" id="USqiYI" role="tabpanel" aria-labelledby="USqiYI-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="vBoMAZ-content">
+                    <div class="tab-pane active" id="lJjTTC" role="tabpanel" aria-labelledby="lJjTTC-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -542,13 +526,13 @@ Whether you are required to escape the character manually or if the HTTP library
         </div><p>Instead of timestamps in RFC3339 format, all timestamp will now use the number of seconds since the UNIX epoch (January 1st 1970).</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="kcXzBK" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="yheBcq-tab" data-bs-toggle="tab" data-bs-target="#yheBcq" type="button" role="tab" aria-controls="yheBcq" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="HQkImy" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="flexyZ-tab" data-bs-toggle="tab" data-bs-target="#flexyZ" type="button" role="tab" aria-controls="flexyZ" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="kcXzBK-content">
-                    <div class="tab-pane active" id="yheBcq" role="tabpanel" aria-labelledby="yheBcq-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="HQkImy-content">
+                    <div class="tab-pane active" id="flexyZ" role="tabpanel" aria-labelledby="flexyZ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -609,7 +593,7 @@ Whether you are required to escape the character manually or if the HTTP library
 
         <footer class="footer col-12">
             by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
-            <a href="https://github.com/noda/byexample/blob/main/examples/energyview/read-timeseries-data.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v1/read-timeseries-data.md">source</a> |
             <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
             Last updated: <span class="last-updated">March 17, 2023</span>
         </footer>
