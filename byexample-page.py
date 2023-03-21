@@ -180,7 +180,7 @@ def main(argv):
         print(f"WARNING: No metadata file found at {metadata_file}", file=sys.stderr)
         metadata = {}
 
-    markdown = Markdown(extensions=[TabbedCode])
+    markdown = Markdown(extensions=[TabbedCode, "gfm"])
     doc = markdown.parse(file_content)
     doc.children = group_fenced_code_blocks(doc.children)
 
@@ -210,6 +210,9 @@ def main(argv):
         source=pathlib.Path(*p.parts[1:]),
         last_updated=todate,
     )
+
+    # Now, find all references to http://canary.lvh.me and replace them with https://customer.noda.se
+    html5 = html5.replace("http://canary.lvh.me", "https://customer.noda.se")
 
     if output_file is None:
         print(html5)

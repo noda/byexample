@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EnergyView APIv1: EnergyView APIv1: Activate the Building Service</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView APIv1: Activate the Building Service</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>This guide demonstrates how to create and deploy a service using the EnergyView API v1.</p>
+<p>For more information about the API, refer to the online <a href="https://customer.noda.se/api/v1">API documentation</a>.</p>
+<h2>Prerequisites</h2>
+<p>An API key is required to interact with the API. If you have sufficient privileges, you can create an API key through the EnergyView web interface. Contact your system administrator if you do not have the necessary privileges.</p>
+<p>Each request is made to <code>https://customer.noda.se/{domain}/api/v1/...</code>, where <code>{domain}</code> is the domain name of your EnergyView instance. A customer may have multiple domains, each managed by a separate database. This item is also sometimes referred to as &quot;site&quot;.</p>
+<h2>Create a Control Node</h2>
+<p>The initial step is to create a Control Node, which represents a single heating or cooling system. This node contains all the settings and data needed for the algorithms to function properly.</p>
+<p>To create a Control Node, send a POST request to the <code>/{domain}/api/v1/nodes</code> endpoint.</p>
+<p>The request body should be in JSON format. Here's an example of a valid request body:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="bjQgqR" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="jLLxCX-tab" data-bs-toggle="tab" data-bs-target="#jLLxCX" type="button" role="tab" aria-controls="jLLxCX" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="XxAoFQ-tab" data-bs-toggle="tab" data-bs-target="#XxAoFQ" type="button" role="tab" aria-controls="XxAoFQ" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="bjQgqR-content">
+                    <div class="tab-pane active" id="jLLxCX" role="tabpanel" aria-labelledby="jLLxCX-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s2">&quot;demo-secret&quot;</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/nodes&quot;</span>
+
+<span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;My Control Node&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;designation&quot;</span><span class="p">:</span> <span class="s2">&quot;building&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;My Control Node for my building&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;dataif&quot;</span><span class="p">:</span> <span class="s2">&quot;optional string used as an identifier&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;operational_state&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;outdoortemp_fake&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;outdoortemp_offset&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;returntemp_sec&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;supplytemp_sec&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;supplytemp_sec_controller_setvalue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;supplytemp_sec_offset&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meter_effect&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meter_heatenergy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meter_primreturntemp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meter_primsupplytemp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meter_volume&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meter_volumeflow&quot;</span><span class="p">,</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;Kelp-Basic&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;pre-installation&quot;</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>  <span class="c1"># {&#39;id&#39;: 123, &#39;uuid&#39;: &#39;12345678-1234-1234-1234-123456789012&#39;}</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="XxAoFQ" role="tabpanel" aria-labelledby="XxAoFQ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;uuid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345678-1234-1234-1234-123456789012&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My Control Node&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;designation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;building&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My Control Node for my building&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dataif&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional string used as an identifier&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;operational_state&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;outdoortemp_fake&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;outdoortemp_offset&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;returntemp_sec&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;supplytemp_sec&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;supplytemp_sec_controller_setvalue&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;supplytemp_sec_offset&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;meter_effect&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;meter_heatenergy&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;meter_primreturntemp&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;meter_primsupplytemp&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;meter_volume&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;meter_volumeflow&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ControlNode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pre-installation&quot;</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Table of the fields in the request body:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uuid</code></td>
+<td>(optional) The requested UUID of the Node. If not specified, a random UUID will be generated. This can be used to assign a specific UUID to a Node.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>The name of the Node.</td>
+</tr>
+<tr>
+<td><code>designation</code></td>
+<td>The Node's designation, such as building, heating system, indoor climate sensor, etc.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>A description of the Node.</td>
+</tr>
+<tr>
+<td><code>dataif</code></td>
+<td>An optional string that can be used as a secondary way to identify the Node.</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>A list of tags that can be used to identify the Node. This includes the complete list of sensors we want to enable on the Node. The system manages a fixed list of tags for different devices.</td>
+</tr>
+<tr>
+<td><code>device</code></td>
+<td>The device type of the Node.</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>The state of the Node.</td>
+</tr>
+</tbody></table><p>The response will be a <code>201 Created</code>, and the response body will contain the created Node's serial ID and UUID.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="MujTnn" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="tBhWdS-tab" data-bs-toggle="tab" data-bs-target="#tBhWdS" type="button" role="tab" aria-controls="tBhWdS" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="MujTnn-content">
+                    <div class="tab-pane active" id="tBhWdS" role="tabpanel" aria-labelledby="tBhWdS-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;uuid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345678-1234-1234-1234-123456789012&quot;</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Save the serial ID or UUID of the created Node, as they will be used in the next step.</p>
+<h2>Create Climate Sensor Nodes</h2>
+<p>Next, create Climate Sensor Nodes. These nodes represent individual indoor climate sensors and will be associated with a Control Node.</p>
+<p>To create Climate Sensor Nodes, send a POST request to the <code>/{domain}/api/v1/nodes</code> endpoint for each node.</p>
+<p>The request body should be in JSON format. Here's an example of a valid request body:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="YvvNTw" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="xeZoHt-tab" data-bs-toggle="tab" data-bs-target="#xeZoHt" type="button" role="tab" aria-controls="xeZoHt" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="YvvNTw-content">
+                    <div class="tab-pane active" id="xeZoHt" role="tabpanel" aria-labelledby="xeZoHt-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;uuid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cafe1234-cafe-cafe-cafe-cafe12345678&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My Climate Sensor Node #1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;designation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sensor/indoor&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;One of several climate sensors&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dataif&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional string used as an identifier&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">   </span><span class="s2">&quot;indoortemp&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;parent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345678-1234-1234-1234-123456789012&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Generic Indoor Sensor&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pre-installation&quot;</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>The description of the fields in the request body is the same as for the Control Node, with one exception: <code>parent</code> is a required field specifying the serial ID or UUID of the Control Node to associate the Climate Sensor Node with.</p>
+<p>The response will be a <code>201 Created</code>, and the response body will contain the created Node's serial ID and UUID.</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="tegexv" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="ksPBXP-tab" data-bs-toggle="tab" data-bs-target="#ksPBXP" type="button" role="tab" aria-controls="ksPBXP" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="tegexv-content">
+                    <div class="tab-pane active" id="ksPBXP" role="tabpanel" aria-labelledby="ksPBXP-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">124</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;uuid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cafe1234-cafe-cafe-cafe-cafe12345678&quot;</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Repeat this process for each Climate Sensor Node you want to create.</p>
+<h2>Deploy the Service</h2>
+<p>The final step is to deploy the service on the Control Node, allowing the algorithms to start running.</p>
+<p>To deploy the service, send a POST request to the <code>/{domain}/api/v1/nodes/{id}/provision</code> endpoint, where <code>{id}</code> is the serial ID of the Control Node.</p>
+<p>The request body should be in JSON format. Here's an example of a valid request body:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="MtiYCi" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="fjugHw-tab" data-bs-toggle="tab" data-bs-target="#fjugHw" type="button" role="tab" aria-controls="fjugHw" aria-selected="true">JSON</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="MtiYCi-content">
+                    <div class="tab-pane active" id="fjugHw" role="tabpanel" aria-labelledby="fjugHw-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;balance_temperature&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;idt_wanted&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;idt_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Table of the fields in the request body:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>active</code></td>
+<td>Whether the service should be active or not.</td>
+</tr>
+<tr>
+<td><code>balance_temperature</code></td>
+<td>The balance temperature of the system, typically the outdoor temperature at which the pump is turned off.</td>
+</tr>
+<tr>
+<td><code>idt_wanted</code></td>
+<td>The desired average indoor temperature for the cluster of climate sensors.</td>
+</tr>
+<tr>
+<td><code>idt_min</code></td>
+<td>The minimum allowed indoor temperature for any indoor climate sensor.</td>
+</tr>
+</tbody></table><p>The response will be a <code>204 No Content</code>, and the response body will be empty.</p>
+<h2>Update the Service</h2>
+<p>To update a running service, repeat the process described in the previous section. The service will be updated with the new settings.</p>
+<p>Set the <code>active</code> field to <code>false</code> to stop the service.</p>
+
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v1/enable-building-service.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
+            Last updated: <span class="last-updated">March 20, 2023</span>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

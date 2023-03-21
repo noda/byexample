@@ -54,3 +54,32 @@ blockquote {
     margin-right: 0;
     margin-bottom: 1rem;
 }
+
+table {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #2f3640;
+    border-top: 1px solid #2f3640;
+    width: 100%;
+}
+
+table.highlighttable {
+    margin-bottom: 0;
+    border-bottom: 0;
+    border-top: 0;
+    width: auto;
+}
+
+th {
+    padding: 0.5rem;
+}
+
+td {
+    vertical-align: top;
+    padding: 0.5rem;
+}
+
+thead th {
+    border-bottom: 1px solid #2f3640;
+}
+
+

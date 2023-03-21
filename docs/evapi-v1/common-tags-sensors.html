@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EnergyView APIv1: EnergyView APIv1: Common Tags/Sensors</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView APIv1: Common Tags/Sensors</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>This page lists the common tags/sensors that are available in the EnergyView system. The tags are grouped by their type.</p>
+<h2>Tags available to &quot;Kelp-Basic&quot; devices</h2>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enco_indoortemp_average</code></td>
+<td>Temperature</td>
+<td>The average indoor temperature. As computed by the ENCO controller.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>enco_indoortemp_min</code></td>
+<td>Temperature</td>
+<td>The minimum indoor temperature. As computed by the ENCO controller.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>enco_limit_hi</code></td>
+<td>Temperature</td>
+<td>The high limit of the indoor temperature. As set by the ENCO controller.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>enco_limit_lo</code></td>
+<td>Temperature</td>
+<td>The low limit of the indoor temperature. As set by the ENCO controller.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>enco_outdoortemp_offset</code></td>
+<td>Temperature</td>
+<td>The offset that is applied to the outdoor temperature. As set by the ENCO controller.</td>
+<td>Kelvin</td>
+</tr>
+<tr>
+<td><code>enco_target</code></td>
+<td>Temperature</td>
+<td>The target temperature. As set by the ENCO controller.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>meter_effect</code></td>
+<td>Power</td>
+<td>The power consumption of the building.</td>
+<td>Kilowatt</td>
+</tr>
+<tr>
+<td><code>meter_heatenergy</code></td>
+<td>Energy</td>
+<td>The heat energy consumption of the building.</td>
+<td>Megawatt hour</td>
+</tr>
+<tr>
+<td><code>meter_primreturntemp</code></td>
+<td>Temperature</td>
+<td>The primary return temperature.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>meter_primsupplytemp</code></td>
+<td>Temperature</td>
+<td>The primary supply temperature.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>meter_volume</code></td>
+<td>Volume</td>
+<td>The volume of the building.</td>
+<td>Cubic meter</td>
+</tr>
+<tr>
+<td><code>meter_volumeflow</code></td>
+<td>Volume flow</td>
+<td>The volume flow of the building.</td>
+<td>Liter per hour</td>
+</tr>
+<tr>
+<td><code>operational_state</code></td>
+<td>State</td>
+<td>The operational state of the algorithm.</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td><code>outdoortemp</code></td>
+<td>Temperature</td>
+<td>The outdoor temperature.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>outdoortemp_fake</code></td>
+<td>Temperature</td>
+<td>The outdoor temperature, but with the offset applied.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>outdoortemp_offset</code></td>
+<td>Temperature</td>
+<td>The offset that is applied to the outdoor temperature.</td>
+<td>Kelvin</td>
+</tr>
+<tr>
+<td><code>returntemp_sec</code></td>
+<td>Temperature</td>
+<td>The secondary return temperature.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>supplytemp_sec</code></td>
+<td>Temperature</td>
+<td>The secondary supply temperature.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>supplytemp_sec_controller_setvalue</code></td>
+<td>Temperature</td>
+<td>The secondary supply temperature set value.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>supplytemp_sec_offset</code></td>
+<td>Temperature</td>
+<td>The offset that is applied to the secondary supply temperature.</td>
+<td>Kelvin</td>
+</tr>
+<tr>
+<td><code>user_temporary_heat_shift</code></td>
+<td>Temperature</td>
+<td>The temporary heat shift. As set by the user.</td>
+<td>Kelvin</td>
+</tr>
+</tbody></table><h2>Tags available to &quot;Generic Indoor Sensor&quot; devices</h2>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>indoortemp</code></td>
+<td>Temperature</td>
+<td>The indoor temperature.</td>
+<td>Celsius</td>
+</tr>
+<tr>
+<td><code>humidity</code></td>
+<td>Humidity</td>
+<td>The indoor humidity.</td>
+<td>Percent</td>
+</tr>
+<tr>
+<td><code>rssi</code></td>
+<td>Signal strength</td>
+<td>The signal strength.</td>
+<td>dBm</td>
+</tr>
+</tbody></table>
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v1/common-tags-sensors.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
+            Last updated: <span class="last-updated">March 21, 2023</span>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
