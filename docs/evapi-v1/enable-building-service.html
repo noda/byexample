@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="EnergyView APIv1: Activate the Building Service">
+    <meta property="og:description" content="EnergyView APIv1: Activate the Building Service">
+    <meta property="og:image" content="https://byexample.noda.se/images/byexample.png">
+    <meta property="og:url" content="https://byexample.noda.se/evapi-v1/enable-building-service.html">
 
-    <title>EnergyView APIv1: EnergyView APIv1: Activate the Building Service</title>
+    <title>EnergyView APIv1: Activate the Building Service</title>
     
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,13 +37,13 @@
 <p>The request body should be in JSON format. Here's an example of a valid request body:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="bjQgqR" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="jLLxCX-tab" data-bs-toggle="tab" data-bs-target="#jLLxCX" type="button" role="tab" aria-controls="jLLxCX" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="XxAoFQ-tab" data-bs-toggle="tab" data-bs-target="#XxAoFQ" type="button" role="tab" aria-controls="XxAoFQ" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="LMtBzP" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="VQKjWI-tab" data-bs-toggle="tab" data-bs-target="#VQKjWI" type="button" role="tab" aria-controls="VQKjWI" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="gQhsgm-tab" data-bs-toggle="tab" data-bs-target="#gQhsgm" type="button" role="tab" aria-controls="gQhsgm" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="bjQgqR-content">
-                    <div class="tab-pane active" id="jLLxCX" role="tabpanel" aria-labelledby="jLLxCX-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="LMtBzP-content">
+                    <div class="tab-pane active" id="VQKjWI" role="tabpanel" aria-labelledby="VQKjWI-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -107,7 +111,7 @@
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>  <span class="c1"># {&#39;id&#39;: 123, &#39;uuid&#39;: &#39;12345678-1234-1234-1234-123456789012&#39;}</span>
 </pre></div></td></tr></table></div>
-</div><div class="tab-pane " id="XxAoFQ" role="tabpanel" aria-labelledby="XxAoFQ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+</div><div class="tab-pane " id="gQhsgm" role="tabpanel" aria-labelledby="gQhsgm-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -204,13 +208,13 @@
 </tbody></table><p>The response will be a <code>201 Created</code>, and the response body will contain the created Node's serial ID and UUID.</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="MujTnn" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="tBhWdS-tab" data-bs-toggle="tab" data-bs-target="#tBhWdS" type="button" role="tab" aria-controls="tBhWdS" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="PEFTfx" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="YtQdhK-tab" data-bs-toggle="tab" data-bs-target="#YtQdhK" type="button" role="tab" aria-controls="YtQdhK" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="MujTnn-content">
-                    <div class="tab-pane active" id="tBhWdS" role="tabpanel" aria-labelledby="tBhWdS-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+                <div class="tab-content" id="PEFTfx-content">
+                    <div class="tab-pane active" id="YtQdhK" role="tabpanel" aria-labelledby="YtQdhK-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
@@ -228,13 +232,13 @@
 <p>The request body should be in JSON format. Here's an example of a valid request body:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="YvvNTw" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="xeZoHt-tab" data-bs-toggle="tab" data-bs-target="#xeZoHt" type="button" role="tab" aria-controls="xeZoHt" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="EVlfhl" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="QmHOba-tab" data-bs-toggle="tab" data-bs-target="#QmHOba" type="button" role="tab" aria-controls="QmHOba" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="YvvNTw-content">
-                    <div class="tab-pane active" id="xeZoHt" role="tabpanel" aria-labelledby="xeZoHt-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="EVlfhl-content">
+                    <div class="tab-pane active" id="QmHOba" role="tabpanel" aria-labelledby="QmHOba-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -267,13 +271,13 @@
 <p>The response will be a <code>201 Created</code>, and the response body will contain the created Node's serial ID and UUID.</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="tegexv" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="ksPBXP-tab" data-bs-toggle="tab" data-bs-target="#ksPBXP" type="button" role="tab" aria-controls="ksPBXP" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="xDJLao" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="rytxgl-tab" data-bs-toggle="tab" data-bs-target="#rytxgl" type="button" role="tab" aria-controls="rytxgl" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="tegexv-content">
-                    <div class="tab-pane active" id="ksPBXP" role="tabpanel" aria-labelledby="ksPBXP-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+                <div class="tab-content" id="xDJLao-content">
+                    <div class="tab-pane active" id="rytxgl" role="tabpanel" aria-labelledby="rytxgl-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><span class="p">{</span>
@@ -291,13 +295,13 @@
 <p>The request body should be in JSON format. Here's an example of a valid request body:</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="MtiYCi" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="fjugHw-tab" data-bs-toggle="tab" data-bs-target="#fjugHw" type="button" role="tab" aria-controls="fjugHw" aria-selected="true">JSON</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="QOlqzp" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="aEJZJI-tab" data-bs-toggle="tab" data-bs-target="#aEJZJI" type="button" role="tab" aria-controls="aEJZJI" aria-selected="true">JSON</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="MtiYCi-content">
-                    <div class="tab-pane active" id="fjugHw" role="tabpanel" aria-labelledby="fjugHw-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+                <div class="tab-content" id="QOlqzp-content">
+                    <div class="tab-pane active" id="aEJZJI" role="tabpanel" aria-labelledby="aEJZJI-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
@@ -349,7 +353,7 @@
             by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
             <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v1/enable-building-service.md">source</a> |
             <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
-            Last updated: <span class="last-updated">March 20, 2023</span>
+            Last updated: <span class="last-updated">March 21, 2023</span>
         </footer>
     </div>
     <script src="/js/bootstrap.bundle.min.js"></script>

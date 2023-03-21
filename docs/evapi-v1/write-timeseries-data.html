@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="EnergyView APIv1: Write TimeSeries data">
+    <meta property="og:description" content="EnergyView APIv1: Write TimeSeries data">
+    <meta property="og:image" content="https://byexample.noda.se/images/byexample.png">
+    <meta property="og:url" content="https://byexample.noda.se/evapi-v1/write-timeseries-data.html">
 
-    <title>EnergyView APIv1: EnergyView APIv1: Write TimeSeries data</title>
+    <title>EnergyView APIv1: Write TimeSeries data</title>
     
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,13 +32,13 @@
 <p>To allow for more complex use-cases, the id of a Node can be either an <code>integer</code> or a <code>UUID</code>.</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="RGQlRH" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="cEfNjx-tab" data-bs-toggle="tab" data-bs-target="#cEfNjx" type="button" role="tab" aria-controls="cEfNjx" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="nYwSGV-tab" data-bs-toggle="tab" data-bs-target="#nYwSGV" type="button" role="tab" aria-controls="nYwSGV" aria-selected="true">Go</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="qxFpZg" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="nUFYpr-tab" data-bs-toggle="tab" data-bs-target="#nUFYpr" type="button" role="tab" aria-controls="nUFYpr" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="BbShfk-tab" data-bs-toggle="tab" data-bs-target="#BbShfk" type="button" role="tab" aria-controls="BbShfk" aria-selected="true">Go</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="RGQlRH-content">
-                    <div class="tab-pane active" id="cEfNjx" role="tabpanel" aria-labelledby="cEfNjx-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="qxFpZg-content">
+                    <div class="tab-pane active" id="nUFYpr" role="tabpanel" aria-labelledby="nUFYpr-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -90,7 +94,7 @@
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
 </pre></div></td></tr></table></div>
-</div><div class="tab-pane " id="nYwSGV" role="tabpanel" aria-labelledby="nYwSGV-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+</div><div class="tab-pane " id="BbShfk" role="tabpanel" aria-labelledby="BbShfk-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -213,13 +217,13 @@
 <p>The code is the same as above, the only difference is that we add more data points.</p>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="OdDYEk" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="siOXQM-tab" data-bs-toggle="tab" data-bs-target="#siOXQM" type="button" role="tab" aria-controls="siOXQM" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="LTOUST" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="nDwVDa-tab" data-bs-toggle="tab" data-bs-target="#nDwVDa" type="button" role="tab" aria-controls="nDwVDa" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="OdDYEk-content">
-                    <div class="tab-pane active" id="siOXQM" role="tabpanel" aria-labelledby="siOXQM-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="LTOUST-content">
+                    <div class="tab-pane active" id="nDwVDa" role="tabpanel" aria-labelledby="nDwVDa-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -276,13 +280,13 @@
 </blockquote>
 <div class="card">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="wWmbzO" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="CBDNFo-tab" data-bs-toggle="tab" data-bs-target="#CBDNFo" type="button" role="tab" aria-controls="CBDNFo" aria-selected="true">Python</button></li>
+                <ul class="nav nav-tabs card-header-tabs" id="KiSuWL" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="itTsfC-tab" data-bs-toggle="tab" data-bs-target="#itTsfC" type="button" role="tab" aria-controls="itTsfC" aria-selected="true">Python</button></li>
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="wWmbzO-content">
-                    <div class="tab-pane active" id="CBDNFo" role="tabpanel" aria-labelledby="CBDNFo-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+                <div class="tab-content" id="KiSuWL-content">
+                    <div class="tab-pane active" id="itTsfC" role="tabpanel" aria-labelledby="itTsfC-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>

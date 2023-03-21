@@ -161,6 +161,13 @@ def main(argv):
                 )
         return f"{prefix}: Untitled"
 
+    def get_page_title_no_prefix(elements):
+        """Get page title from the first h1 element."""
+        for element in elements:
+            if isinstance(element, Heading) and element.level == 1:
+                return element.children[0].children
+        return "Untitled"
+
     input_file = argv[0]
     output_file = argv[1] if len(argv) > 1 else None
 
@@ -194,7 +201,8 @@ def main(argv):
             break
 
     body = markdown.renderer.render(doc)
-    title = get_page_title(doc.children, prefix=metadata.get("prefix", ""))
+    # title = get_page_title(doc.children, prefix=metadata.get("prefix", ""))
+    title = get_page_title_no_prefix(doc.children)
 
     p = pathlib.Path(input_file)
 
@@ -206,8 +214,10 @@ def main(argv):
 
     html5 = template.substitute(
         title=title,
+        description=metadata.get("description", title),
         body=body,
-        source=pathlib.Path(*p.parts[1:]),
+        md_source=pathlib.Path(*p.parts[1:]),
+        html_source=pathlib.Path(*p.with_suffix(".html").parts[1:]),
         last_updated=todate,
     )
 

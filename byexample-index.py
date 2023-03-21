@@ -138,6 +138,7 @@ def main(argv):
 
     html = template.substitute(
         title=title,
+        description="If you're an engineer or researcher looking to interact with our systems, NODA by Example is the perfect place to start. This hands-on introduction will guide you through our platform and provide you with the knowledge and skills you need to make the most of our solutions. Get ready to take control of your energy resources and experience the power of NODA.",
         body=body,
         last_updated=todate,
     )
