@@ -6,12 +6,14 @@ EXAMPLE_JS := $(shell find js -name '*.js')
 EXAMPLE_JS_TARGETS := $(patsubst js/%.js,docs/js/%.js,$(EXAMPLE_JS))
 EXAMPLE_CSS := $(shell find css -name '*.css')
 EXAMPLE_CSS_TARGETS := $(patsubst css/%.css,docs/css/%.css,$(EXAMPLE_CSS))
+EXAMPLE_IMAGES := $(shell find images -name '*.png')
+EXAMPLE_IMAGES_TARGETS := $(patsubst images/%.png,docs/images/%.png,$(EXAMPLE_IMAGES))
 TEMPLATE_INDEX := $(shell find templates -name 'index.html')
 TEMPLATE_EXAMPLE := $(shell find templates -name 'example.html')
 
 all: docs examples index
 
-docs: $(EXAMPLE_DIRS) docs/css docs/js docs/CNAME $(EXAMPLE_JS_TARGETS) $(EXAMPLE_CSS_TARGETS)
+docs: $(EXAMPLE_DIRS) docs/css docs/js docs/images docs/CNAME $(EXAMPLE_JS_TARGETS) $(EXAMPLE_CSS_TARGETS) $(EXAMPLE_IMAGES_TARGETS)
 
 $(EXAMPLE_DIRS):
 	mkdir -p $@
@@ -25,10 +27,16 @@ docs/css:
 docs/js:
 	mkdir -p $@
 
+docs/images:
+	mkdir -p $@
+
 docs/css/%.css: css/%.css
 	cp $^ $@
 
 docs/js/%.js: js/%.js
+	cp $^ $@
+
+docs/images/%.png: images/%.png
 	cp $^ $@
 
 examples: $(EXAMPLE_TARGETS)
@@ -49,4 +57,4 @@ clean:
 	rm -rf docs/CNAME
 	rm -rf $(EXAMPLE_TARGETS)
 
-.PHONY: all clean docs/CNAME docs/css docs/js docs/index.html
+.PHONY: all clean docs/CNAME docs/css docs/js docs/images docs/index.html
