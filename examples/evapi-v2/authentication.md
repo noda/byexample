@@ -23,7 +23,7 @@ import requests
 
 domain = "mydomain"
 secret = "mysecretkey"
-url = f"https://customer.noda.se/api/v2/nodes"
+url = f"https://customer.noda.se/api/v2/things"
 
 reply = requests.get(url, auth=(domain, secret))
 
