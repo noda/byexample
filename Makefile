@@ -6,6 +6,8 @@ EXAMPLE_JS := $(shell find js -name '*.js')
 EXAMPLE_JS_TARGETS := $(patsubst js/%.js,docs/js/%.js,$(EXAMPLE_JS))
 EXAMPLE_CSS := $(shell find css -name '*.css')
 EXAMPLE_CSS_TARGETS := $(patsubst css/%.css,docs/css/%.css,$(EXAMPLE_CSS))
+EXAMPLE_FONTS := $(shell find fonts -name '*.woff2')
+EXAMPLE_FONTS_TARGETS := $(patsubst fonts/%.woff2,docs/fonts/%.woff2,$(EXAMPLE_FONTS))
 EXAMPLE_IMAGES := $(shell find images -name '*.png')
 EXAMPLE_IMAGES_TARGETS := $(patsubst images/%.png,docs/images/%.png,$(EXAMPLE_IMAGES))
 TEMPLATE_INDEX := $(shell find templates -name 'index.html')
@@ -13,7 +15,7 @@ TEMPLATE_EXAMPLE := $(shell find templates -name 'example.html')
 
 all: docs examples index
 
-docs: $(EXAMPLE_DIRS) docs/css docs/js docs/images docs/CNAME $(EXAMPLE_JS_TARGETS) $(EXAMPLE_CSS_TARGETS) $(EXAMPLE_IMAGES_TARGETS)
+docs: $(EXAMPLE_DIRS) docs/css docs/js docs/fonts docs/images docs/CNAME $(EXAMPLE_JS_TARGETS) $(EXAMPLE_CSS_TARGETS) $(EXAMPLE_FONTS_TARGETS) $(EXAMPLE_IMAGES_TARGETS)
 
 $(EXAMPLE_DIRS):
 	mkdir -p $@
@@ -22,6 +24,9 @@ docs/CNAME:
 	echo -n byexample.noda.se > $@
 
 docs/css:
+	mkdir -p $@
+
+docs/fonts:
 	mkdir -p $@
 
 docs/js:
@@ -34,6 +39,9 @@ docs/css/%.css: css/%.css
 	cp $^ $@
 
 docs/js/%.js: js/%.js
+	cp $^ $@
+
+docs/fonts/%.woff2: fonts/%.woff2
 	cp $^ $@
 
 docs/images/%.png: images/%.png
@@ -54,7 +62,8 @@ clean:
 	rm -rf docs/*.html
 	rm -rf docs/js
 	rm -rf docs/css
+	rm -rf docs/fonts
 	rm -rf docs/CNAME
 	rm -rf $(EXAMPLE_TARGETS)
 
-.PHONY: all clean docs/CNAME docs/css docs/js docs/images docs/index.html
+.PHONY: all clean docs/CNAME docs/css docs/js docs/fonts docs/images docs/index.html

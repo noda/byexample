@@ -14,9 +14,17 @@ from marko.block import Heading
 MD_TEMPLATE = Template(
     """# $title
 
-NODA provides a variety of solutions for performing advanced control of energy resources.
+*Your Interactive Guide to Advanced Energy Control*
 
-*NODA by Example* is a hands-on introduction intended for engineers and researchers who want to interact with our systems.
+Welcome to 'NODA by Example', a practical and engaging platform explicitly designed for engineers and researchers in the energy field. Our platform offers a unique opportunity to dive into the world of advanced energy resource control, showcasing NODA's cutting-edge solutions in a user-friendly and interactive format.
+
+- **Hands-On Learning:** Experience firsthand how NODA's intelligent systems operate, with detailed examples and real-world situations.
+- **Innovative Solutions:** Explore our advanced AI-driven approaches for efficient energy management in buildings and energy systems.
+- **Expert Insights:** Gain valuable knowledge from our expertise and see how NODA's technology is shaping the future of energy optimization.
+
+Join us in exploring the possibilities of more innovative and more sustainable energy solutions.
+
+> If at first you don't succeed, try, try again.
 
 $body
 """

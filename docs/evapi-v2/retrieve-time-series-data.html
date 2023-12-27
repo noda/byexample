@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="EnergyView APIv2: Retrieving Data from a TimeSeries">
+    <meta property="og:description" content="EnergyView APIv2: Retrieving Data from a TimeSeries">
+    <meta property="og:url" content="https://byexample.noda.se/evapi-v2/retrieve-time-series-data.html">
+    <meta property="og:image" content="https://byexample.noda.se/images/byexample.png">
+    <meta property="og:image:secure_url" content="https://byexample.noda.se/images/byexample.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <title>EnergyView APIv2: Retrieving Data from a TimeSeries</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView APIv2: Retrieving Data from a TimeSeries</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>This guide covers how to retrieve data from a TimeSeries in EnergyView API v2, a crucial step for data analysis and monitoring.</p>
+<h2>Process Overview</h2>
+<ol>
+<li><strong>Identify the TimeSeries:</strong> Use the UUID of the TimeSeries you want to access.</li>
+<li><strong>Configure the Request:</strong> Set up a GET request with necessary parameters, such as time range and format.</li>
+<li><strong>Execute the Request:</strong> Send the GET request to the TimeSeries data endpoint.</li>
+<li><strong>Handle the Response:</strong> The API will return the requested data points.</li>
+</ol>
+<p>Here are examples in various languages:</p>
+<div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="tWlRvP" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="FfFcvq-tab" data-bs-toggle="tab" data-bs-target="#FfFcvq" type="button" role="tab" aria-controls="FfFcvq" aria-selected="true">Python</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="ObkBRT-tab" data-bs-toggle="tab" data-bs-target="#ObkBRT" type="button" role="tab" aria-controls="ObkBRT" aria-selected="true">JavaScript</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="zAlfOx-tab" data-bs-toggle="tab" data-bs-target="#zAlfOx" type="button" role="tab" aria-controls="zAlfOx" aria-selected="true">Java</button></li><li class="nav-item" role="presentation"><button class="nav-link " id="FXqwIQ-tab" data-bs-toggle="tab" data-bs-target="#FXqwIQ" type="button" role="tab" aria-controls="FXqwIQ" aria-selected="true">C#</button></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="tWlRvP-content">
+                    <div class="tab-pane active" id="FfFcvq" role="tabpanel" aria-labelledby="FfFcvq-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">api_url</span> <span class="o">=</span> <span class="s2">&quot;https://customer.noda.se/api/v2/timeseries/</span><span class="si">{uuid}</span><span class="s2">/data&quot;</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-02T00:00:00Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;aggregate&quot;</span><span class="p">:</span> <span class="s2">&quot;avg&quot;</span>
+<span class="p">}</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Basic &lt;base64-encoded credentials&gt;&quot;</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="ObkBRT" role="tabpanel" aria-labelledby="ObkBRT-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><span class="c1">// Node.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">axios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;axios&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">api_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://customer.noda.se/api/v2/timeseries/{uuid}/data&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">start</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2023-01-01T00:00:00Z&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">end</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2023-01-02T00:00:00Z&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">aggregate</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;avg&#39;</span>
+<span class="p">};</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Authorization</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Basic &lt;base64-encoded credentials&gt;&#39;</span><span class="w"> </span><span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">api_url</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">params</span><span class="p">,</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">))</span>
+<span class="w">  </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">));</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="zAlfOx" role="tabpanel" aria-labelledby="zAlfOx-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.net.HttpURLConnection</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.URL</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.URLEncoder</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.charset.StandardCharsets</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Scanner</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URLEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="s">&quot;2023-01-01T00:00:00Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URLEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="s">&quot;2023-01-02T00:00:00Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">aggregate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">URLEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="s">&quot;avg&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span>
+
+<span class="w">            </span><span class="n">URL</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;https://customer.noda.se/api/v2/timeseries/{uuid}/data?start=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;&amp;end=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;&amp;aggregate=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">aggregate</span><span class="p">);</span>
+<span class="w">            </span><span class="n">HttpURLConnection</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpURLConnection</span><span class="p">)</span><span class="w"> </span><span class="n">url</span><span class="p">.</span><span class="na">openConnection</span><span class="p">();</span>
+<span class="w">            </span><span class="n">conn</span><span class="p">.</span><span class="na">setRequestMethod</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">conn</span><span class="p">.</span><span class="na">setRequestProperty</span><span class="p">(</span><span class="s">&quot;Authorization&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Basic &lt;base64-encoded credentials&gt;&quot;</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">Scanner</span><span class="w"> </span><span class="n">sc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="na">openStream</span><span class="p">());</span>
+<span class="w">            </span><span class="k">while</span><span class="p">(</span><span class="n">sc</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">sc</span><span class="p">.</span><span class="na">nextLine</span><span class="p">());</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div><div class="tab-pane " id="FXqwIQ" role="tabpanel" aria-labelledby="FXqwIQ-tab"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">System.Net.Http</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">System.Threading.Tasks</span><span class="p">;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Program</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">Main</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">byteArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="s">&quot;&lt;base64-encoded credentials&gt;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">client</span><span class="p">.</span><span class="n">DefaultRequestHeaders</span><span class="p">.</span><span class="n">Authorization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Http</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="n">AuthenticationHeaderValue</span><span class="p">(</span><span class="s">&quot;Basic&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Convert</span><span class="p">.</span><span class="n">ToBase64String</span><span class="p">(</span><span class="n">byteArray</span><span class="p">));</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="n">EscapeDataString</span><span class="p">(</span><span class="s">&quot;2023-01-01T00:00:00Z&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="n">EscapeDataString</span><span class="p">(</span><span class="s">&quot;2023-01-02T00:00:00Z&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">aggregate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="n">EscapeDataString</span><span class="p">(</span><span class="s">&quot;avg&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$&quot;https://customer.noda.se/api/v2/timeseries/{{uuid}}/data?start={start}&amp;end={end}&amp;aggregate={aggregate}&quot;</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">HttpResponseMessage</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">GetAsync</span><span class="p">(</span><span class="n">url</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="n">ReadAsStringAsync</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div></td></tr></table></div>
+</div>
+                </div>
+            </div>
+        </div><p>Replace <code>{uuid}</code> with the actual UUID of the TimeSeries.</p>
+<p>Here's a table summarizing the query parameters for retrieving data from a TimeSeries in EnergyView API v2:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Format</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start</code></td>
+<td>Start date/time</td>
+<td>RFC3339</td>
+<td><code>2023-01-01T00:00:00Z</code></td>
+</tr>
+<tr>
+<td><code>end</code></td>
+<td>End date/time</td>
+<td>RFC3339</td>
+<td><code>2023-01-02T00:00:00Z</code></td>
+</tr>
+<tr>
+<td><code>unit</code></td>
+<td>Unit for data conversion</td>
+<td>String</td>
+<td><code>&quot;C&quot;</code></td>
+</tr>
+<tr>
+<td><code>ge</code></td>
+<td>Greater than/equal to value</td>
+<td>Numeric</td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td><code>le</code></td>
+<td>Less than/equal to value</td>
+<td>Numeric</td>
+<td><code>20</code></td>
+</tr>
+<tr>
+<td><code>precision</code></td>
+<td>Precision of returned data</td>
+<td>String</td>
+<td><code>&quot;hour&quot;</code></td>
+</tr>
+<tr>
+<td><code>aggregate</code></td>
+<td>Aggregate function (avg, min, max)</td>
+<td>String</td>
+<td><code>&quot;avg&quot;</code></td>
+</tr>
+<tr>
+<td><code>timezone</code></td>
+<td>Timezone for data</td>
+<td>String</td>
+<td><code>&quot;Europe/Stockholm&quot;</code></td>
+</tr>
+</tbody></table><p>For further guidance see the <a href="https://customer.noda.se/api/v2">OpenAPI specification</a>.</p>
+
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v2/retrieve-time-series-data.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
+            Last updated: <span class="last-updated">December 27, 2023</span>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

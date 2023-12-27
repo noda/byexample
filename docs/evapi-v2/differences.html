@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="EnergyView APIv2: Differences Between APIv1 and APIv2">
+    <meta property="og:description" content="EnergyView APIv2: Differences Between APIv1 and APIv2">
+    <meta property="og:url" content="https://byexample.noda.se/evapi-v2/differences.html">
+    <meta property="og:image" content="https://byexample.noda.se/images/byexample.png">
+    <meta property="og:image:secure_url" content="https://byexample.noda.se/images/byexample.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <title>EnergyView APIv2: Differences Between APIv1 and APIv2</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView APIv2: Differences Between APIv1 and APIv2</h1>
+<p><a href="/index.html">Back to index</a></p>
+<p>APIv2, unlike its predecessor, is built on a distinct information model. It emphasizes unique time series linked to Things - objects representing any entity.</p>
+<p>Here's a conceptual mapping between APIv1 and APIv2:</p>
+<ul>
+<li>Node -&gt; Thing</li>
+<li>Time-series -&gt; Time-series</li>
+<li>Dataset -&gt; Dataset</li>
+</ul>
+<p>However, the interface has changed significantly, necessitating understanding these differences to utilize APIv2 effectively.</p>
+<h2>Authentication</h2>
+<p>The authentication method in APIv2 differs from APIv1. Previously, authentication was achieved using <em>Authorization: Key ...</em>, and the target customer's <em>domain</em> was included in the URL. In contrast, APIv2 incorporates the domain into a standard <em>Basic</em> authentication format: <em>Authorization: Basic <base64 domain:secret-key></em>.</p>
+<h2>UUIDs</h2>
+<p>APIv1 occasionally permitted the use of UUIDs. In APIv2, UUIDs are mandatory and are exclusive identifiers for Things, time series, and Datasets.</p>
+<p>Each Thing, Time-series, and Dataset possesses a unique UUID. There should never be an instance where a UUID is identical for a time series and a Dataset.</p>
+<p>For more detailed information on UUIDs and their structure, visit the <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID Wikipedia page</a>.</p>
+<h2>Origin</h2>
+<p>EnergyView is not the originator of APIv2. It stemmed from a different software - the <a href="https://github.com/self-host/self-host">NODA Self-host project</a>. In this project, Time-series are distinct entities, not necessarily linked to any parent object, like a Thing.</p>
+<p>Nevertheless, due to significant design variations between these systems, the APIv2 implementation in EnergyView cannot perfectly mirror the API in the NODA Self-host. For instance, in EnergyView, you must link a time series to a Thing, a constraint not present in the NODA Self-host.</p>
+<p>While APIv2 strives to maintain compatibility with the NODA Self-host, the calls and paths are similar, though sometimes different. An API layer developed for the NODA Self-host might require adjustments to function seamlessly with APIv2.</p>
+<h2>Missing Features</h2>
+<p>APIv2 presents a more streamlined interface compared to APIv1, a result of its foundational design. The primary aim of APIv2, along with the NODA Self-host, is to facilitate an interface for machines to store and retrieve time-series values at specific locations as needed.</p>
+
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v2/differences.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
+            Last updated: <span class="last-updated">December 27, 2023</span>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

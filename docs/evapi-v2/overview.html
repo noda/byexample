@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="EnergyView APIv2: Overview">
+    <meta property="og:description" content="EnergyView APIv2: Overview">
+    <meta property="og:url" content="https://byexample.noda.se/evapi-v2/overview.html">
+    <meta property="og:image" content="https://byexample.noda.se/images/byexample.png">
+    <meta property="og:image:secure_url" content="https://byexample.noda.se/images/byexample.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <title>EnergyView APIv2: Overview</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/nord-darker.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+            <h1>EnergyView APIv2: Overview</h1>
+<p><a href="/index.html">Back to index</a></p>
+<h2>Simple Information Model</h2>
+<p>There are three different objects in the APIv2 model.</p>
+<ul>
+<li><strong>Time-series:</strong> Represents a single series of time series values. The series can only store two values for any given point: a float value and the time stamp.</li>
+<li><strong>Things:</strong> The purpose of a Thing is to keep track of time series by grouping them. A Thing can be anything, such as a radiator circuit, an entire heating system, a pump station, etc.</li>
+<li><strong>Datasets:</strong> A Dataset is just a data document. It allows for the storage of more complex objects than time series allow.</li>
+</ul>
+<h3>Time-series</h3>
+<p>The Time-series object in APIv2 is crucial for storing and managing time-stamped data. It includes several operations:</p>
+<ul>
+<li><strong>Getting Time-series Data:</strong> You can retrieve all Time-series or specific details of a Time-series using its UUID. </li>
+<li><strong>Creating and Updating Time-series:</strong> New Time-series can be created, and existing ones can be updated with new information.</li>
+<li><strong>Deleting Time-series:</strong> Allows the removal of a Time-series from the system.</li>
+<li><strong>Data Manipulation:</strong> Features for adding, retrieving, and deleting measurement data associated with a Time-series. This includes specifying parameters such as start and end times, units, and aggregation functions.</li>
+</ul>
+<p>Each Time-series is identified by a unique UUID and is associated with a Thing. It stores two values for each data point: a floating-point value and a time stamp. This structure makes it highly suitable for time-dependent data analysis and tracking.</p>
+<p>The model of a Time-series is as follows;</p>
+<ul>
+<li><strong>id:</strong> A unique string identifier for the Time-series, formatted as an ID.</li>
+<li><strong>thing_uuid:</strong> A string representing the UUID of the associated Thing, which is optional.</li>
+<li><strong>created_by:</strong> The UUID of the user who created the Time-series.</li>
+<li><strong>name:</strong> The name of the Time-series.</li>
+<li><strong>si_unit:</strong> The SI unit of measurement for the Time-series.</li>
+<li><strong>lower_bound:</strong> A number indicating the lower limit of the Time-series' value range.</li>
+<li><strong>upper_bound:</strong> A number indicating the upper limit of the Time-series' value range.</li>
+<li><strong>tags:</strong> An array of strings used as tags for the Time-series.</li>
+</ul>
+<p>For more details, please review our <a href="https://customer.noda.se/api/v2">OpenAPI specification</a>.</p>
+<h3>Things</h3>
+<p>In the EnergyView APIv2, a &quot;Thing&quot; is a versatile object that serves as a container for grouping Time-series. It can represent any physical or conceptual entity, such as a radiator circuit, a heating system, or a pump station. This flexibility allows Things to be adapted to a wide range of applications.</p>
+<ul>
+<li><strong>Creation and Management:</strong> Things can be created, updated, and deleted through the API. This includes setting names, types, and states and associating them with parent or child Things.</li>
+<li><strong>Associations:</strong> Things are associated with Time-series and can have hierarchical relationships with other Things, represented by parent and child UUIDs.</li>
+<li><strong>Tagging and Categorization:</strong> Things can be tagged for more accessible organization and retrieval.</li>
+</ul>
+<p>The model of a Thing is as follows;</p>
+<ul>
+<li><strong>uuid:</strong> A unique string identifier for the Thing, represented in UUID format.</li>
+<li><strong>name:</strong> A string representing the Thing's name, with a minimum length requirement.</li>
+<li><strong>state:</strong> A string indicating the current state of the Thing.</li>
+<li><strong>type:</strong> A string specifying the type of the Thing, such as 'office/building', is optional.</li>
+<li><strong>created_by:</strong> A string representing the UUID of the user who created the Thing.</li>
+<li><strong>tags:</strong> An array of strings serving as identifying tags for the Thing.</li>
+<li><strong>parent:</strong> A string representing the UUID of a parent Thing, if any.</li>
+<li><strong>children:</strong> An array of strings, each representing the UUID of a child Thing.</li>
+</ul>
+<p>For more details, please review our <a href="https://customer.noda.se/api/v2">OpenAPI specification</a>.</p>
+<h3>Datasets</h3>
+<p>Datasets in EnergyView API v2 are complex data structures that allow storing and managing a wide range of data types. They are essential for situations where detailed and multifaceted data is necessary.</p>
+<p>Key features of Datasets include:</p>
+<ul>
+<li><strong>UUID Identification:</strong> A UUID uniquely identifies each Dataset.</li>
+<li><strong>Enhanced Data Storage:</strong> Unlike Time-series, which handle simple time-value pairs, Datasets can store complex, structured data.</li>
+<li><strong>Flexible Data Types:</strong> They support various data formats, accommodating diverse data storage needs.</li>
+<li><strong>Operational Capabilities:</strong> The API facilitates the creation, updating, retrieval, and management of Datasets.</li>
+<li><strong>Integration with Things:</strong> Datasets can be linked to specific Things for context and easier data management.</li>
+</ul>
+<p>The model of a Dataset is as follows;</p>
+<ul>
+<li><strong>uuid:</strong> The unique identifier for each Dataset, in UUID format.</li>
+<li><strong>name:</strong> A human-readable name for the Dataset.</li>
+<li><strong>format:</strong> Indicates the format of the stored content, such as CSV, JSON, XML, YAML.</li>
+<li><strong>size:</strong> The size of the Dataset content in bytes.</li>
+<li><strong>checksum:</strong> A SHA256 checksum of the content for integrity verification.</li>
+<li><strong>thing_uuid:</strong> An optional reference to a Thing (Node/Thing), if applicable.</li>
+<li><strong>created:</strong> Time-stamp for when the Dataset was created.</li>
+<li><strong>created_by:</strong> Account ID of the user who created the Dataset.</li>
+<li><strong>updated:</strong> Time-stamp for the last update of the Dataset.</li>
+<li><strong>updated_by:</strong> Account ID of the user who last updated the Dataset.</li>
+<li><strong>tags:</strong> Optional tags used for filtering and identification.</li>
+</ul>
+<p>For more details, please review our <a href="https://customer.noda.se/api/v2">OpenAPI specification</a>.</p>
+
+            </div>
+        </div>
+
+        <footer class="footer col-12">
+            by <a href="https://www.noda.se">NODA Intelligent Systems AB</a> |
+            <a href="https://github.com/noda/byexample/blob/main/examples/evapi-v2/overview.md">source</a> |
+            <a href="https://github.com/noda/byexample/blob/main/LICENSE">license</a> |
+            Last updated: <span class="last-updated">December 27, 2023</span>
+        </footer>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
