@@ -42,7 +42,7 @@ Whether you are required to escape the character manually or if the HTTP library
 <p>We need to specify the following;</p>
 <ul>
 <li><em>node_id</em>, the unique identifier for the node we want to extract data from.</li>
-<li><em>tag</em>, the name of the tag we want to extract data fromm which belongs to the node.</li>
+<li><em>tag</em>, the name of the tag we want to extract data from which belongs to the node.</li>
 <li><em>start</em>, the start date and time for the data we want to extract. The format is <a href="/various/rfc3339.html">RFC3339</a>.</li>
 <li><em>end</em>, the end date and time for the data we want to extract. The format is <a href="/various/rfc3339.html">RFC3339</a>.</li>
 </ul>
@@ -77,14 +77,14 @@ Whether you are required to escape the character manually or if the HTTP library
 <span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
     <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-02T00:00:00+01:00&quot;</span>
 <span class="p">}</span>
 
-<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div></td></tr></table></div>
@@ -218,7 +218,7 @@ Whether you are required to escape the character manually or if the HTTP library
 <span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;node_ids&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span>
             <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
             <span class="s2">&quot;64c1faf9-b23c-4f6d-9429-b2b3f5e4811d&quot;</span>
@@ -232,7 +232,7 @@ Whether you are required to escape the character manually or if the HTTP library
     <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-02T00:00:00+01:00&quot;</span>
 <span class="p">}</span>
 
-<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div></td></tr></table></div>
@@ -414,7 +414,7 @@ Whether you are required to escape the character manually or if the HTTP library
 <span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
     <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
@@ -423,7 +423,7 @@ Whether you are required to escape the character manually or if the HTTP library
     <span class="s2">&quot;aggregate&quot;</span><span class="p">:</span> <span class="s2">&quot;avg&quot;</span>
 <span class="p">}</span>
 
-<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div></td></tr></table></div>
@@ -465,7 +465,7 @@ Whether you are required to escape the character manually or if the HTTP library
 <span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
     <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
@@ -474,7 +474,7 @@ Whether you are required to escape the character manually or if the HTTP library
     <span class="s2">&quot;aggregate&quot;</span><span class="p">:</span> <span class="s2">&quot;min&quot;</span>
 <span class="p">}</span>
 
-<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div></td></tr></table></div>
@@ -516,7 +516,7 @@ Whether you are required to escape the character manually or if the HTTP library
 <span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://customer.noda.se/</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">/api/v1/timeseries&quot;</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;be65cf3b-dec1-479f-981f-54157d8588ff&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;outdoortemp&quot;</span><span class="p">,</span>
     <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-01T00:00:00+01:00&quot;</span><span class="p">,</span>
@@ -524,7 +524,7 @@ Whether you are required to escape the character manually or if the HTTP library
     <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="mi">1</span>
 <span class="p">}</span>
 
-<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div></td></tr></table></div>
