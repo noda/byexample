@@ -34,14 +34,14 @@ secret = "demo-secret"
 header = {"Authorization": f"Key {secret}"}
 url = f"https://customer.noda.se/{domain}/api/v1/timeseries"
 
-data = {
+params = {
     "node_id": "be65cf3b-dec1-479f-981f-54157d8588ff",
     "tag": "outdoortemp",
     "start": "2023-01-01T00:00:00+01:00",
     "end": "2023-01-02T00:00:00+01:00"
 }
 
-reply = requests.get(url, headers=header, data=data)
+reply = requests.get(url, headers=header, params=params)
 
 print(reply.json())
 ```
@@ -90,14 +90,14 @@ As you can see, the data is returned as a JSON array of objects. Each object con
 
 ## Basic example with multiple tags
 
-In the following example we extract data from multiple tags on multiple nodes.
+In the following example, we extract data from multiple tags on multiple nodes.
 
 To allow for more complex use-cases, the id of a Node can be either an `integer` or a `UUID`.
 
 We need to specify the following;
 
 - *node_ids*, the unique identifier for the nodes we want to extract data from.
-- *tags*, the names of the tags we want to extract data fromm which belongs to the node.
+- *tags*, the names of the tags we want to extract data from which belongs to the node.
 - *start*, the start date and time for the data we want to extract. The format is [RFC3339](/various/rfc3339.html).
 - *end*, the end date and time for the data we want to extract. The format is [RFC3339](/various/rfc3339.html).
 
@@ -110,7 +110,7 @@ secret = "demo-secret"
 header = {"Authorization": f"Key {secret}"}
 url = f"https://customer.noda.se/{domain}/api/v1/timeseries"
 
-data = {
+params = {
     "node_ids": json.dumps([
             "be65cf3b-dec1-479f-981f-54157d8588ff",
             "64c1faf9-b23c-4f6d-9429-b2b3f5e4811d"
@@ -124,7 +124,7 @@ data = {
     "end": "2023-01-02T00:00:00+01:00"
 }
 
-reply = requests.get(url, headers=header, data=data)
+reply = requests.get(url, headers=header, params=params)
 
 print(reply.json())
 ```
@@ -229,7 +229,7 @@ data = {
     "aggregate": "avg"
 }
 
-reply = requests.get(url, headers=header, data=data)
+reply = requests.get(url, headers=header, params=params)
 
 print(reply.json())
 ```
@@ -246,7 +246,7 @@ secret = "demo-secret"
 header = {"Authorization": f"Key {secret}"}
 url = f"https://customer.noda.se/{domain}/api/v1/timeseries"
 
-data = {
+params = {
     "node_id": "be65cf3b-dec1-479f-981f-54157d8588ff",
     "tag": "outdoortemp",
     "start": "2023-01-01T00:00:00+01:00",
@@ -255,7 +255,7 @@ data = {
     "aggregate": "min"
 }
 
-reply = requests.get(url, headers=header, data=data)
+reply = requests.get(url, headers=header, params=params)
 
 print(reply.json())
 ```
@@ -275,7 +275,7 @@ secret = "demo-secret"
 header = {"Authorization": f"Key {secret}"}
 url = f"https://customer.noda.se/{domain}/api/v1/timeseries"
 
-data = {
+params = {
     "node_id": "be65cf3b-dec1-479f-981f-54157d8588ff",
     "tag": "outdoortemp",
     "start": "2023-01-01T00:00:00+01:00",
@@ -283,7 +283,7 @@ data = {
     "epoch": 1
 }
 
-reply = requests.get(url, headers=header, data=data)
+reply = requests.get(url, headers=header, params=params)
 
 print(reply.json())
 ```
